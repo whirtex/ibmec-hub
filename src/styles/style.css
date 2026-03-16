@@ -1085,8 +1085,8 @@ ul {
   }
   .card {
     max-width: none;
-    height: 120px;
-    grid-template-rows: 44px 1fr;
+    height: auto;
+    grid-template-rows: auto 1fr;
   }
 
   .depoimentos {
