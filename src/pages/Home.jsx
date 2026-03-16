@@ -3,38 +3,38 @@ import { Link, useLocation } from "react-router-dom";
 import { CATEGORIES } from "../constants/projects";
 
 // ── Ícones das categorias ──────────────────────────────────────────────────
-import icDireito     from "../assets/icons/direito.svg";
+import icDireito from "../assets/icons/direito.svg";
 import icArquitetura from "../assets/icons/arquitetura.svg";
-import icIA          from "../assets/icons/IA.svg";
-import icAdm         from "../assets/icons/marketing e vendas.svg";
-import icEcon        from "../assets/icons/economia e financas.svg";
-import icUX          from "../assets/icons/UX.svg";
-import icMkt         from "../assets/icons/marketing.svg";
-import icFront       from "../assets/icons/front.svg";
-import icBack        from "../assets/icons/back.svg";
-import icMobile      from "../assets/icons/mobile.svg";
+import icIA from "../assets/icons/IA.svg";
+import icAdm from "../assets/icons/marketing e vendas.svg";
+import icEcon from "../assets/icons/economia e financas.svg";
+import icUX from "../assets/icons/UX.svg";
+import icMkt from "../assets/icons/marketing.svg";
+import icFront from "../assets/icons/front.svg";
+import icBack from "../assets/icons/back.svg";
+import icMobile from "../assets/icons/mobile.svg";
 
 // ── Fotos dos autores de depoimentos ──────────────────────────────────────
-import MarkZ  from "../assets/img/MarkZuckerberg.png";
-import TimC   from "../assets/img/TimCook.png";
-import AndyJ  from "../assets/img/AndyJassy.png";
+import MarkZ from "../assets/img/MarkZuckerberg.png";
+import TimC from "../assets/img/TimCook.png";
+import AndyJ from "../assets/img/AndyJassy.png";
 import SatyaN from "../assets/img/SatyaNadella.png";
-import JoaoA  from "../assets/img/JoaoAdibe.png";
+import JoaoA from "../assets/img/JoaoAdibe.png";
 import DiegoB from "../assets/img/DiegoBarreto.png";
 
 // ── Mapeamento slug → ícone ────────────────────────────────────────────────
 // Conecta os slugs de CATEGORIES aos SVGs importados, sem duplicar a lista.
 const CATEGORY_ICONS = {
-  direito:       icDireito,
-  arquitetura:   icArquitetura,
-  ia:            icIA,
+  direito: icDireito,
+  arquitetura: icArquitetura,
+  ia: icIA,
   administracao: icAdm,
-  economia:      icEcon,
-  ux:            icUX,
-  marketing:     icMkt,
-  "front-end":   icFront,
-  "back-end":    icBack,
-  mobile:        icMobile,
+  economia: icEcon,
+  ux: icUX,
+  marketing: icMkt,
+  "front-end": icFront,
+  "back-end": icBack,
+  mobile: icMobile,
 };
 
 // ── Dados dos depoimentos ─────────────────────────────────────────────────
@@ -44,43 +44,79 @@ const TESTIMONIALS = [
     id: 1,
     category: "Arquitetura e UX",
     icon: icArquitetura,
-    quote: "É raro ver um time tão jovem dominar a intersecção entre arquitetura e experiência. O conceito que eles apresentaram para nossos novos espaços de varejo é a prova de que o futuro do design está em boas mãos.",
-    author: { name: "Tim Cook",        role: "CEO Apple",     date: "15 de fev de 2025", photo: TimC   },
+    quote:
+      "É raro ver um time tão jovem dominar a intersecção entre arquitetura e experiência. O conceito que eles apresentaram para nossos novos espaços de varejo é a prova de que o futuro do design está em boas mãos.",
+    author: {
+      name: "Tim Cook",
+      role: "CEO Apple",
+      date: "15 de fev de 2025",
+      photo: TimC,
+    },
   },
   {
     id: 2,
     category: "Back-End",
     icon: icBack,
-    quote: "A arquitetura de backend que esta equipe projetou para nós é uma verdadeira obra de engenharia de software. Eles demonstraram um domínio de escalabilidade e performance digno de nossos melhores engenheiros.",
-    author: { name: "Andy Jassy",      role: "CEO Amazon",    date: "15 de set de 2025", photo: AndyJ  },
+    quote:
+      "A arquitetura de backend que esta equipe projetou para nós é uma verdadeira obra de engenharia de software. Eles demonstraram um domínio de escalabilidade e performance digno de nossos melhores engenheiros.",
+    author: {
+      name: "Andy Jassy",
+      role: "CEO Amazon",
+      date: "15 de set de 2025",
+      photo: AndyJ,
+    },
   },
   {
     id: 3,
     category: "Front-End",
     icon: icFront,
-    quote: "Demos a eles um desafio de interface com dados extremamente complexos. A solução que entregaram não foi apenas funcional, mas de uma clareza e elegância que elevaram o padrão do que considerávamos possível.",
-    author: { name: "Satya Nadella",   role: "CEO Microsoft", date: "19 de ago de 2025", photo: SatyaN },
+    quote:
+      "Demos a eles um desafio de interface com dados extremamente complexos. A solução que entregaram não foi apenas funcional, mas de uma clareza e elegância que elevaram o padrão do que considerávamos possível.",
+    author: {
+      name: "Satya Nadella",
+      role: "CEO Microsoft",
+      date: "19 de ago de 2025",
+      photo: SatyaN,
+    },
   },
   {
     id: 4,
     category: "Serviços de IA",
     icon: icIA,
-    quote: "A profundidade da equipe de IA é impressionante. Eles desenvolveram uma solução preditiva que redefiniu nossa abordagem de engajamento em escala global.",
-    author: { name: "Mark Zuckerberg", role: "CEO Meta",      date: "5 de fev de 2025",  photo: MarkZ  },
+    quote:
+      "A profundidade da equipe de IA é impressionante. Eles desenvolveram uma solução preditiva que redefiniu nossa abordagem de engajamento em escala global.",
+    author: {
+      name: "Mark Zuckerberg",
+      role: "CEO Meta",
+      date: "5 de fev de 2025",
+      photo: MarkZ,
+    },
   },
   {
     id: 5,
     category: "Economia e Marketing",
     icon: icEcon,
-    quote: "A análise de mercado que recebemos foi de um nível de senioridade impressionante. São talentos com uma visão estratégica do consumidor brasileiro que muitas agências experientes não possuem.",
-    author: { name: "João Adibe",      role: "CEO Cimed",     date: "30 de mar de 2025", photo: JoaoA  },
+    quote:
+      "A análise de mercado que recebemos foi de um nível de senioridade impressionante. São talentos com uma visão estratégica do consumidor brasileiro que muitas agências experientes não possuem.",
+    author: {
+      name: "João Adibe",
+      role: "CEO Cimed",
+      date: "30 de mar de 2025",
+      photo: JoaoA,
+    },
   },
   {
     id: 6,
     category: "Direito",
     icon: icDireito,
-    quote: "Navegar no cenário regulatório brasileiro é um desafio constante. A consultoria jurídica deste time nos forneceu insights claros e a segurança necessária para avançar com um de nossos projetos mais inovadores.",
-    author: { name: "Diego Barreto",   role: "CEO iFood",     date: "12 de jan de 2025", photo: DiegoB },
+    quote:
+      "Navegar no cenário regulatório brasileiro é um desafio constante. A consultoria jurídica deste time nos forneceu insights claros e a segurança necessária para avançar com um de nossos projetos mais inovadores.",
+    author: {
+      name: "Diego Barreto",
+      role: "CEO iFood",
+      date: "12 de jan de 2025",
+      photo: DiegoB,
+    },
   },
 ];
 
@@ -92,7 +128,11 @@ export default function Home() {
     const target = location.state?.scrollTo;
     if (!target) return;
     const el = document.getElementById(target);
-    if (el) setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
+    if (el)
+      setTimeout(
+        () => el.scrollIntoView({ behavior: "smooth", block: "start" }),
+        0,
+      );
   }, [location.state]);
 
   return (
@@ -100,14 +140,22 @@ export default function Home() {
       {/* ── HERO ── */}
       <section className="hero">
         <div className="container">
+          <span className="hero__eyebrow">
+            Plataforma de projetos acadêmicos
+          </span>
           <h2>
-            O Futuro se Cria Aqui.
+            O Futuro
             <br />
-            Encontre talentos e soluções no Ibmec.
+            se Cria Aqui.
+            <br />
+            <em>Encontre talentos no Ibmec.</em>
           </h2>
 
           <div className="search-box">
-            <input type="text" placeholder="Buscar projetos" />
+            <input
+              type="text"
+              placeholder="Buscar projetos, áreas ou tecnologias…"
+            />
             <button>Pesquisar</button>
           </div>
 
@@ -127,7 +175,9 @@ export default function Home() {
           <div className="grid-projetos">
             {CATEGORIES.map(({ slug, label }) => (
               <Link key={slug} to={`/projetos/${slug}`} className="card">
-                <img src={CATEGORY_ICONS[slug]} alt={label} />
+                <div className="card__icon">
+                  <img src={CATEGORY_ICONS[slug]} alt="" aria-hidden="true" />
+                </div>
                 <h4>{label}</h4>
               </Link>
             ))}
