@@ -1,16 +1,83 @@
-# React + Vite
+# Ibmec Projetos
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Plataforma web para exposição e descoberta de projetos acadêmicos desenvolvidos por alunos do **Ibmec**. O objetivo é criar uma vitrine que permita:
 
-Currently, two official plugins are available:
+- **Alunos** publicarem seus trabalhos de conclusão de curso e projetos interdisciplinares.
+- **Professores** acompanharem e avaliarem o portfólio produzido pelos estudantes.
+- **Empresas** descobrirem talentos e soluções inovadoras para seus desafios reais.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## Tecnologias
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| Ferramenta | Versão |
+|---|---|
+| React | 18+ |
+| React Router DOM | 6+ |
+| Vite | 5+ |
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Estrutura do Projeto
+
+```
+src/
+├── assets/            # Imagens, ícones e vídeos estáticos
+├── components/        # Componentes reutilizáveis (Header, Footer, Layout, LoginModal, ScrollToTop)
+├── constants/
+│   └── projects.js    # Fonte única de verdade para as categorias de projetos
+├── context/
+│   └── LoginContext.jsx  # Estado global do modal de login (evita prop drilling)
+├── pages/             # Páginas da aplicação (Home, Cadastro, QuemSomos, Projetos, ProjetoExemplo)
+└── styles/            # Arquivos CSS por componente/página + style.css global
+```
+
+---
+
+## Como Rodar Localmente
+
+```bash
+# Instalar dependências
+npm install
+
+# Iniciar servidor de desenvolvimento
+npm run dev
+
+# Build de produção
+npm run build
+```
+
+---
+
+## Rotas
+
+| Caminho | Página |
+|---|---|
+| `/` | Home — busca e destaques de projetos |
+| `/quem-somos` | Sobre a plataforma e o Ibmec |
+| `/cadastro` | Cadastro de empresas parceiras |
+| `/projetos/:categoria` | Listagem por área (ex.: `/projetos/back-end`) |
+| `/projetos/:categoria/:slug` | Detalhe de um projeto específico |
+
+---
+
+## Categorias Disponíveis
+
+`direito` · `arquitetura` · `front-end` · `back-end` · `administracao` · `economia` · `ux` · `marketing` · `ia` · `mobile`
+
+---
+
+## Próximos Passos
+
+- [ ] Integração com backend/API para dados reais de projetos
+- [ ] Autenticação de alunos e professores (além do fluxo de empresas)
+- [ ] Painel do professor para avaliação de projetos
+- [ ] Upload de arquivos e mídias pelos alunos
+- [ ] Busca e filtros funcionais na listagem de projetos
+
+---
+
+## Contribuição
+
+Projeto desenvolvido por alunos do Ibmec como trabalho acadêmico.  
+Para dúvidas ou sugestões, utilize a seção de **Issues** do repositório.

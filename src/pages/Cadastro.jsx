@@ -1,36 +1,28 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/img/logo-Ibmec.svg";
+import { useLogin } from "../context/LoginContext";
 import "../styles/styleCadastro.css";
 
-//aplica a mascara de CNPJ
 function maskCNPJ(value) {
   const d = (value || "").replace(/\D/g, "").slice(0, 14);
-  const p = [];
-  if (d.length > 0) p.push(d.substring(0, 2));
-  if (d.length >= 3) p.push(d.substring(2, 5));
-  if (d.length >= 6) p.push(d.substring(5, 8));
-
-  if (d.length <= 2) return p[0] || "";
-  if (d.length <= 5) return `${p[0]}.${p[1]}`;
-  if (d.length <= 8) return `${p[0]}.${p[1]}.${p[2]}`;
-  if (d.length <= 12) return `${p[0]}.${p[1]}.${p[2]}/${d.substring(8, 12)}`;
-  return `${p[0]}.${p[1]}.${p[2]}/${d.substring(8, 12)}-${d.substring(12, 14)}`;
+  if (d.length <= 2)  return d;
+  if (d.length <= 5)  return `${d.slice(0, 2)}.${d.slice(2)}`;
+  if (d.length <= 8)  return `${d.slice(0, 2)}.${d.slice(2, 5)}.${d.slice(5)}`;
+  if (d.length <= 12) return `${d.slice(0, 2)}.${d.slice(2, 5)}.${d.slice(5, 8)}/${d.slice(8)}`;
+  return `${d.slice(0, 2)}.${d.slice(2, 5)}.${d.slice(5, 8)}/${d.slice(8, 12)}-${d.slice(12)}`;
 }
 
-export default function Cadastro({ onOpenLogin }) {
-  const formRef = useRef(null);
+const INITIAL_FORM = {
+  nome: "", email: "", cnpj: "", senha: "",
+  porte: "", vinculo: "", area: "", demanda: "",
+};
 
-  const [form, setForm] = useState({
-    nome: "",
-    email: "",
-    cnpj: "",
-    senha: "",
-    porte: "",
-    vinculo: "",
-    area: "",
-    demanda: "",
-  });
+export default function Cadastro() {
+  // Consome o contexto diretamente — sem necessidade de prop onOpenLogin
+  const { openLogin } = useLogin();
+  const formRef = useRef(null);
+  const [form, setForm] = useState(INITIAL_FORM);
 
   function setField(name, value) {
     setForm((f) => ({ ...f, [name]: value }));
@@ -38,28 +30,21 @@ export default function Cadastro({ onOpenLogin }) {
 
   function onChange(e) {
     const { name, value } = e.target;
-    if (name === "cnpj") {
-      setField("cnpj", maskCNPJ(value));
-      e.target.setCustomValidity("");
-      return;
-    }
-    setField(name, value);
     e.target.setCustomValidity("");
+    setField(name, name === "cnpj" ? maskCNPJ(value) : value);
   }
 
-  // submit com valdiacao do html
   function onSubmit(e) {
     e.preventDefault();
     const formEl = formRef.current;
     [...formEl.querySelectorAll("input, select")].forEach((el) =>
       el.setCustomValidity("")
     );
-
     if (!formEl.checkValidity()) {
       formEl.reportValidity();
       return;
     }
-
+    // TODO: enviar dados para a API
     console.log("Form OK:", form);
   }
 
@@ -75,138 +60,103 @@ export default function Cadastro({ onOpenLogin }) {
         </div>
 
         <form ref={formRef} className="reg-form" noValidate onSubmit={onSubmit}>
-          {/* Campo nome com validação  */}
           <div className="form-group">
             <input
-              id="nome"
-              name="nome"
-              type="text"
+              id="nome" name="nome" type="text"
               placeholder="Nome Completo"
-              inputMode="text"
-              autoComplete="name"
-              required
-              minLength={3}
+              inputMode="text" autoComplete="name"
+              required minLength={3}
               pattern="^[A-Za-zÀ-ÖØ-öø-ÿ]+(?:\s+[A-Za-zÀ-ÖØ-öø-ÿ]+)+$"
               title="Digite nome e sobrenome, apenas letras e espaços."
-              value={form.nome}
-              onChange={onChange}
+              value={form.nome} onChange={onChange}
             />
           </div>
 
-          {/* Campo email com validação*/}
           <div className="form-group">
             <input
-              id="email"
-              name="email"
-              type="email"
+              id="email" name="email" type="email"
               placeholder="Email@dominio.com"
-              inputMode="email"
-              autoComplete="email"
+              inputMode="email" autoComplete="email"
               required
               pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$"
               title="Digite um e-mail válido (ex.: nome@dominio.com)."
-              value={form.email}
-              onChange={onChange}
+              value={form.email} onChange={onChange}
             />
           </div>
 
-          {/* Campo CNPJ com máscara aplicada */}
           <div className="form-group">
             <input
-              id="cnpj"
-              name="cnpj"
-              type="text"
+              id="cnpj" name="cnpj" type="text"
               placeholder="CNPJ"
-              inputMode="numeric"
-              autoComplete="on"
+              inputMode="numeric" autoComplete="on"
               required
               pattern="^\d{2}\.?\d{3}\.?\d{3}/?\d{4}-?\d{2}$|^\d{14}$"
               title="Digite um CNPJ válido (com ou sem pontuação)."
-              value={form.cnpj}
-              onChange={onChange}
+              value={form.cnpj} onChange={onChange}
             />
           </div>
 
-          {/* Campo senha com requisitos mínimos */}
           <div className="form-group">
             <input
-              id="senha"
-              name="senha"
-              type="password"
+              id="senha" name="senha" type="password"
               placeholder="Senha"
               autoComplete="new-password"
-              required
-              minLength={8}
+              required minLength={8}
               pattern="^(?=.*[A-Za-z])(?=.*\d).{8,}$"
               title="Mínimo 8 caracteres, com pelo menos 1 letra e 1 número."
-              value={form.senha}
-              onChange={onChange}
+              value={form.senha} onChange={onChange}
             />
           </div>
 
-          {/* Selects obrigatórios */}
-          <div className="form-group">
-            <select
-              id="porte"
-              name="porte"
-              required
-              value={form.porte}
-              onChange={onChange}
-            >
-              <option value="">Qual o porte da sua empresa?</option>
-              <option value="micro">Microempresa</option>
-              <option value="pequena">Pequena Empresa</option>
-              <option value="media">Média Empresa</option>
-              <option value="grande">Grande Empresa</option>
-            </select>
-          </div>
-
-          <div className="form-group">
-            <select
-              id="vinculo"
-              name="vinculo"
-              required
-              value={form.vinculo}
-              onChange={onChange}
-            >
-              <option value="">Tem vínculo com o IBMEC Hubs</option>
-              <option value="sim">Sim</option>
-              <option value="nao">Não</option>
-            </select>
-          </div>
-
-          <div className="form-group">
-            <select
-              id="area"
-              name="area"
-              required
-              value={form.area}
-              onChange={onChange}
-            >
-              <option value="">Área de atuação</option>
-              <option value="tecnologia">Tecnologia</option>
-              <option value="saude">Saúde</option>
-              <option value="educacao">Educação</option>
-              <option value="financeiro">Financeiro</option>
-              <option value="outro">Outro</option>
-            </select>
-          </div>
-
-          <div className="form-group">
-            <select
-              id="demanda"
-              name="demanda"
-              required
-              value={form.demanda}
-              onChange={onChange}
-            >
-              <option value="">Tipo de demanda</option>
-              <option value="consultoria">Consultoria</option>
-              <option value="desenvolvimento">Desenvolvimento</option>
-              <option value="pesquisa">Pesquisa</option>
-              <option value="outro">Outro</option>
-            </select>
-          </div>
+          {[
+            {
+              id: "porte", placeholder: "Qual o porte da sua empresa?",
+              options: [
+                { value: "micro",   label: "Microempresa" },
+                { value: "pequena", label: "Pequena Empresa" },
+                { value: "media",   label: "Média Empresa" },
+                { value: "grande",  label: "Grande Empresa" },
+              ],
+            },
+            {
+              id: "vinculo", placeholder: "Tem vínculo com o IBMEC Hubs",
+              options: [
+                { value: "sim", label: "Sim" },
+                { value: "nao", label: "Não" },
+              ],
+            },
+            {
+              id: "area", placeholder: "Área de atuação",
+              options: [
+                { value: "tecnologia", label: "Tecnologia" },
+                { value: "saude",      label: "Saúde" },
+                { value: "educacao",   label: "Educação" },
+                { value: "financeiro", label: "Financeiro" },
+                { value: "outro",      label: "Outro" },
+              ],
+            },
+            {
+              id: "demanda", placeholder: "Tipo de demanda",
+              options: [
+                { value: "consultoria",   label: "Consultoria" },
+                { value: "desenvolvimento", label: "Desenvolvimento" },
+                { value: "pesquisa",      label: "Pesquisa" },
+                { value: "outro",         label: "Outro" },
+              ],
+            },
+          ].map(({ id, placeholder, options }) => (
+            <div className="form-group" key={id}>
+              <select
+                id={id} name={id} required
+                value={form[id]} onChange={onChange}
+              >
+                <option value="">{placeholder}</option>
+                {options.map(({ value, label }) => (
+                  <option key={value} value={value}>{label}</option>
+                ))}
+              </select>
+            </div>
+          ))}
 
           <button type="submit" className="reg-btn reg-btn--accent">
             Cadastre-se
@@ -214,11 +164,7 @@ export default function Cadastro({ onOpenLogin }) {
 
           <div className="reg-or">ou continue com</div>
 
-          <button
-            type="button"
-            className="reg-btn reg-btn--primary"
-            onClick={onOpenLogin}
-          >
+          <button type="button" className="reg-btn reg-btn--primary" onClick={openLogin}>
             Login
           </button>
         </form>

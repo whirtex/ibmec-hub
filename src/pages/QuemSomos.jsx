@@ -1,54 +1,103 @@
-// src/pages/QuemSomos.jsx
 import "../styles/styleQuemSomos.css";
 import ibmecVideo from "../assets/img/ibmec.mp4";
 import equipeImg from "../assets/img/quem-somos-img.png";
 
+const STATS = [
+  { value: "50+", label: "Anos de história" },
+  { value: "10", label: "Áreas de projeto" },
+  { value: "5", label: "Campi no Brasil" },
+  { value: "100%", label: "Avaliação máxima MEC" },
+];
+
 export default function QuemSomos() {
   return (
     <main id="quem-somos" aria-label="Seção Quem Somos">
-      <section className="qs-container">
-        {/* Texto principal */}
-        <div className="qs-principal">
-          <h2>A Força do Ibmec por Trás do Projeto</h2>
+      {/* ── HERO ── */}
+      <section className="qs-hero">
+        <div className="qs-hero__inner container">
+          <span className="qs-hero__eyebrow">Sobre a plataforma</span>
+          <h1 className="qs-hero__title">
+            A força do Ibmec
+            <br />
+            <em>por trás de cada projeto</em>
+          </h1>
+          <p className="qs-hero__sub">
+            Mais de meio século conectando excelência acadêmica ao mercado.
+          </p>
+        </div>
+
+        <div className="qs-stats">
+          <div className="container qs-stats__grid">
+            {STATS.map(({ value, label }) => (
+              <div key={label} className="qs-stat">
+                <span className="qs-stat__value">{value}</span>
+                <span className="qs-stat__label">{label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── BLOCO INSTITUCIONAL ── */}
+      <section className="qs-section qs-section--split container">
+        <div className="qs-split__text">
+          <span className="qs-label">Nossa história</span>
+          <h2>
+            Pioneirismo que
+            <br />
+            nunca parou de evoluir
+          </h2>
           <p>
-            Por trás de cada projeto que você vê aqui, existe uma base de mais
-            de meio século de vanguarda e excelência. O Ibmec nasceu com o DNA
-            do pioneirismo — fomos a primeira instituição no país a criar um MBA
-            em Finanças e, desde então, nunca paramos de evoluir.
+            O Ibmec nasceu com o DNA do pioneirismo — fomos a primeira
+            instituição no país a criar um MBA em Finanças e, desde então, nunca
+            paramos de evoluir.
           </p>
           <p>
             Essa tradição de inovação, validada pelas mais altas avaliações do
             MEC, nos permite formar talentos que não apenas respondem às
             demandas do presente, mas que estão efetivamente preparados para
-            criar o futuro. É essa força institucional que dá credibilidade e
-            impulsiona cada solução que esta plataforma apresenta.
+            criar o futuro.
           </p>
         </div>
 
-        {/* Imagem */}
-        <div className="qs-imagem">
-          <img src={equipeImg} alt="Equipe trabalhando em projeto" />
+        <div className="qs-split__media">
+          <div className="qs-img-frame">
+            <img src={equipeImg} alt="Equipe trabalhando em projeto" />
+            <div className="qs-img-frame__accent" aria-hidden="true" />
+          </div>
         </div>
+      </section>
 
-        {/* Texto secundário */}
-        <div className="qs-secundario">
-          <h3>O Projeto: A Ponte para o Futuro</h3>
-          <p>
-            “Com esta base de excelência e mais de 50 anos de história, nasce
-            esta plataforma. Ela é o portfólio digital da inovação do Ibmec,
-            criada com um propósito claro: valorizar o trabalho extraordinário
-            de nossos estudantes e criar uma ponte real com os desafios do
-            mercado.”
-          </p>
-          <p>
-            Acreditamos que as grandes ideias desenvolvidas em sala de aula não
-            devem ficar no papel, e aqui conectamos empresas a soluções
-            criativas e aos talentos que irão liderar o futuro.”
-          </p>
+      {/* ── QUOTE ── */}
+      <section className="qs-quote-section">
+        <div className="container">
+          <blockquote className="qs-quote">
+            <span className="qs-quote__mark">"</span>
+            <p>
+              Esta plataforma é o portfólio digital da inovação do Ibmec, criada
+              com um propósito claro: valorizar o trabalho extraordinário de
+              nossos estudantes e criar uma ponte real com os desafios do
+              mercado.
+            </p>
+            <footer className="qs-quote__footer">
+              Acreditamos que as grandes ideias desenvolvidas em sala de aula
+              não devem ficar no papel.
+            </footer>
+          </blockquote>
         </div>
+      </section>
 
-        {/* Vídeo */}
-        <div className="qs-video">
+      {/* ── VÍDEO ── */}
+      <section className="qs-video-section container">
+        <div className="qs-video-section__header">
+          <span className="qs-label">Conheça o Ibmec</span>
+          <h2>
+            O Projeto: A Ponte
+            <br />
+            para o Futuro
+          </h2>
+        </div>
+        <div className="qs-video-wrapper">
           <video
             src={ibmecVideo}
             controls
@@ -60,4 +109,3 @@ export default function QuemSomos() {
     </main>
   );
 }
-//teste

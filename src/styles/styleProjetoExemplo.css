@@ -1,12 +1,3 @@
-body {
-  font-family: "krub", sans-serif;
-  margin: 0;
-  padding: 0;
-  color: #333;
-  line-height: 1.6;
-  background-color: #002f6c;
-}
-
 /* MAIN */
 .main-content {
   display: block;
@@ -30,14 +21,14 @@ body {
 .project-info h1 {
   font-size: clamp(1.6rem, 5vw, 1.9rem);
   margin-bottom: 0.9rem;
-  color: #002f6c;
+  color: var(--color-primary-dark);
 }
 
 .project-info h2 {
   margin-top: 1.2rem;
   margin-bottom: 0.7rem;
   font-size: clamp(1.05rem, 4vw, 1.25rem);
-  color: #002f6c;
+  color: var(--color-primary-dark);
 }
 
 figure {
@@ -45,10 +36,10 @@ figure {
   width: 100%;
   max-width: 100%;
   border-radius: 12px;
-  border: 3px solid #ccc;
+  border: 3px solid var(--color-border);
   overflow: hidden;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
-  margin: 1rem 0 0 0;
+  margin: 1rem 0 0;
   align-self: stretch;
 }
 figure img {
@@ -66,7 +57,7 @@ figure img {
   align-items: stretch;
 }
 .info-cards .item-relacionado {
-  background-color: #f9f9f9;
+  background-color: var(--color-background);
   padding: 1rem 1.1rem;
   border-radius: 12px;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
@@ -78,12 +69,12 @@ figure img {
   margin: 0;
   font-size: 1.05rem;
   font-weight: 700;
-  color: #002f6c;
+  color: var(--color-primary-dark);
 }
 .info-cards .item-relacionado p {
   margin: 0;
   font-size: 0.98rem;
-  color: #333;
+  color: var(--color-text-dark);
 }
 
 .project-actions {
@@ -103,44 +94,37 @@ figure img {
   font-size: 1rem;
   text-decoration: none;
   text-align: center;
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition:
+    background 0.3s ease,
+    transform 0.2s ease;
   cursor: pointer;
 }
 .project-actions .btn--primary {
-  background: var(--color-accent-hover, #eaa90f);
-  color: #fff;
+  background: var(--color-accent-hover);
+  color: var(--color-text-light);
 }
 .project-actions .btn--primary:hover {
-  background: var(--color-accent, #ffb81c);
+  background: var(--color-accent);
   transform: translateY(-2px);
 }
 .project-actions .btn--secondary {
-  background: var(--color-primary-light, #002555);
-  color: #fff;
+  background: var(--color-primary-light);
+  color: var(--color-text-light);
 }
 .project-actions .btn--secondary:hover {
-  background: var(--color-primary-dark, #003366);
+  background: var(--color-primary-dark);
   transform: translateY(-2px);
 }
 
-.linha-customizada {
-  border: none;
-  border-top: 1px solid var(--color-border, #d9d9d9);
-  margin: 20px 0;
-  width: 100%;
-}
-
-/*  RESPONSIVIDADE  */
+/* RESPONSIVIDADE */
 @media (min-width: 601px) {
   .main-content {
     padding: 1.75rem;
   }
-
   .info-cards {
     grid-template-columns: repeat(2, minmax(220px, 1fr));
     gap: 1.25rem;
   }
-
   .project-actions {
     flex-direction: row;
     justify-content: flex-start;
@@ -160,18 +144,15 @@ figure img {
     justify-content: center;
     padding: 2.5rem;
   }
-
   .project-container {
     flex-direction: row;
     gap: 2rem;
     align-items: flex-start;
   }
-
   .project-info {
     flex: 2;
     order: 1;
   }
-
   figure {
     flex: 1;
     order: 2;
@@ -179,7 +160,6 @@ figure img {
     margin-top: 4.8rem;
     align-self: flex-start;
   }
-
   .project-info h1 {
     font-size: 2rem;
   }

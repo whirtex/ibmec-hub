@@ -1,17 +1,17 @@
-import { useState } from "react";
-import Header from "./Header";
-import Footer from "./Footer";
+import Header     from "./Header";
+import Footer     from "./Footer";
 import LoginModal from "./LoginModal";
+import { useLogin } from "../context/LoginContext";
 
 export default function Layout({ children }) {
-  const [loginOpen, setLoginOpen] = useState(false);
+  const { loginOpen, openLogin, closeLogin } = useLogin();
 
   return (
     <>
-      <Header onOpenLogin={() => setLoginOpen(true)} />
+      <Header onOpenLogin={openLogin} />
       {children}
       <Footer />
-      <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} />
+      <LoginModal open={loginOpen} onClose={closeLogin} />
     </>
   );
 }

@@ -1,15 +1,4 @@
 .projects {
-  --color-primary-dark: #003366;
-  --color-primary-light: #002555;
-  --color-primary-extra-light: #2a548f;
-  --color-accent: #ffb81c;
-  --color-accent-hover: #eaa90f;
-  --color-text-dark: #333333;
-  --color-text-light: #f5f5f5;
-  --color-bg-light: #ffffff;
-  --color-border: #d9d9d9;
-  --color-background: #f3f3f3;
-
   max-width: 1150px;
   margin: 0 auto;
   padding: 24px 16px 32px;
@@ -31,49 +20,25 @@
   font-size: 1rem;
 }
 
-.projects__filters {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  justify-content: center;
-  align-items: stretch;
-  margin: 16px 0 24px;
-}
-.projects__filters select,
-.projects__filters input[type="search"] {
-  padding: 10px 12px;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  font-size: 0.95rem;
-  background: #fff;
-  min-width: 100%;
-  outline: none;
-}
-.projects__filters select:focus,
-.projects__filters input[type="search"]:focus {
-  border-color: var(--azul);
-  box-shadow: 0 0 0 3px rgba(0, 40, 86, 0.12);
-}
-
-/*  Grid  */
+/* Grid */
 .projects__grid {
   display: grid;
   gap: 22px;
   grid-template-columns: 1fr;
 }
 
-/*  Card  */
+/* Card */
 .project-card {
-  /* MUDANÇA 1: Adiciona o fundo branco */
   background-color: var(--color-primary-dark);
-  border: 1px solid #ebebeb; /* Use um cinza claro, ou o seu var se ele for sutil */
+  border: 1px solid #ebebeb;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   padding: 18px;
   text-align: center;
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
 }
-
 .project-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 26px rgba(0, 0, 0, 0.15);
@@ -104,30 +69,26 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
   width: 100%;
   max-width: 320px;
   margin: 12px auto 0;
-
   height: 44px;
   padding: 0 16px;
   font-size: 1rem;
   line-height: 1;
-
   background: var(--color-accent);
   color: var(--color-text-light);
   border: 0;
   border-radius: 10px;
-  transition: all 0.2s;
-
   font-weight: 700;
+  transition: background 0.2s;
 }
 .project-card__btn:hover {
   background: var(--color-accent-hover);
   color: var(--color-text-light);
 }
 
-/*  Ver mais  */
+/* Ver mais */
 .projects__more {
   display: flex;
   justify-content: center;
@@ -138,27 +99,19 @@
   color: var(--color-text-light);
   border: 0;
   border-radius: 12px;
-  padding: 12px 26px;
-  font-weight: 700;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-  transition: all 0.32s ease;
-}
-.projects__more-btn {
   padding: 14px 20px;
   font-size: 1.05rem;
+  font-weight: 700;
   min-width: 240px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  transition:
+    background 0.32s ease,
+    transform 0.32s ease;
+  cursor: pointer;
 }
 .projects__more-btn:hover {
   background: var(--color-accent-hover);
-  color: #fff;
   transform: translateY(-2px);
-}
-
-.linha-customizada {
-  border: none;
-  border-top: 1px solid var(--color-border, #d9d9d9);
-  margin: 20px 0;
-  width: 100%;
 }
 
 /* RESPONSIVIDADE */
@@ -166,23 +119,9 @@
   .projects {
     padding: 32px 18px 40px;
   }
-
-  .projects__filters {
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .projects__filters select,
-  .projects__filters input[type="search"] {
-    min-width: 180px;
-  }
-
   .projects__grid {
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   }
-
   .project-card__thumb {
     height: 150px;
   }
@@ -192,16 +131,9 @@
   .projects {
     padding: 40px 20px 48px;
   }
-
   .projects__title h1 {
     font-size: 1.9rem;
   }
-
-  .projects__filters select,
-  .projects__filters input[type="search"] {
-    min-width: 220px;
-  }
-
   .projects__grid {
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   }
