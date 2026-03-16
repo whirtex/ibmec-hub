@@ -205,14 +205,11 @@ export default function Home() {
 
                 <div className="autor">
                   <img src={author.photo} alt={author.name} />
-                  <div>
-                    <strong>{author.name}</strong>
-                    <br />
-                    <small>
-                      {author.role}
-                      <br />
-                      {author.date}
-                    </small>
+                  <div className="autor__info">
+                    <span className="autor__name">{author.name}</span>
+                    <span className="autor__meta">
+                      {author.role} · {author.date}
+                    </span>
                   </div>
                 </div>
               </div>
