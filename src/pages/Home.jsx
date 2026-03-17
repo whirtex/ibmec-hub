@@ -1,18 +1,6 @@
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { CATEGORIES } from "../constants/projects";
-
-// ── Ícones das categorias ──────────────────────────────────────────────────
-import icDireito from "../assets/icons/direito.svg";
-import icArquitetura from "../assets/icons/arquitetura.svg";
-import icIA from "../assets/icons/IA.svg";
-import icAdm from "../assets/icons/marketing e vendas.svg";
-import icEcon from "../assets/icons/economia e financas.svg";
-import icUX from "../assets/icons/UX.svg";
-import icMkt from "../assets/icons/marketing.svg";
-import icFront from "../assets/icons/front.svg";
-import icBack from "../assets/icons/back.svg";
-import icMobile from "../assets/icons/mobile.svg";
+import { CATEGORIES, CATEGORY_ICONS } from "../constants/projects";
 
 // ── Fotos dos autores de depoimentos ──────────────────────────────────────
 import MarkZ from "../assets/img/MarkZuckerberg.png";
@@ -22,28 +10,12 @@ import SatyaN from "../assets/img/SatyaNadella.png";
 import JoaoA from "../assets/img/JoaoAdibe.png";
 import DiegoB from "../assets/img/DiegoBarreto.png";
 
-// ── Mapeamento slug → ícone ────────────────────────────────────────────────
-// Conecta os slugs de CATEGORIES aos SVGs importados, sem duplicar a lista.
-const CATEGORY_ICONS = {
-  direito: icDireito,
-  arquitetura: icArquitetura,
-  ia: icIA,
-  administracao: icAdm,
-  economia: icEcon,
-  ux: icUX,
-  marketing: icMkt,
-  "front-end": icFront,
-  "back-end": icBack,
-  mobile: icMobile,
-};
-
 // ── Dados dos depoimentos ─────────────────────────────────────────────────
-// Extraídos do JSX: adicionar ou editar um depoimento não exige tocar na view.
 const TESTIMONIALS = [
   {
     id: 1,
     category: "Arquitetura e UX",
-    icon: icArquitetura,
+    icon: CATEGORY_ICONS["arquitetura"],
     quote:
       "É raro ver um time tão jovem dominar a intersecção entre arquitetura e experiência. O conceito que eles apresentaram para nossos novos espaços de varejo é a prova de que o futuro do design está em boas mãos.",
     author: {
@@ -56,7 +28,7 @@ const TESTIMONIALS = [
   {
     id: 2,
     category: "Back-End",
-    icon: icBack,
+    icon: CATEGORY_ICONS["back-end"],
     quote:
       "A arquitetura de backend que esta equipe projetou para nós é uma verdadeira obra de engenharia de software. Eles demonstraram um domínio de escalabilidade e performance digno de nossos melhores engenheiros.",
     author: {
@@ -69,7 +41,7 @@ const TESTIMONIALS = [
   {
     id: 3,
     category: "Front-End",
-    icon: icFront,
+    icon: CATEGORY_ICONS["front-end"],
     quote:
       "Demos a eles um desafio de interface com dados extremamente complexos. A solução que entregaram não foi apenas funcional, mas de uma clareza e elegância que elevaram o padrão do que considerávamos possível.",
     author: {
@@ -82,7 +54,7 @@ const TESTIMONIALS = [
   {
     id: 4,
     category: "Serviços de IA",
-    icon: icIA,
+    icon: CATEGORY_ICONS["ia"],
     quote:
       "A profundidade da equipe de IA é impressionante. Eles desenvolveram uma solução preditiva que redefiniu nossa abordagem de engajamento em escala global.",
     author: {
@@ -95,7 +67,7 @@ const TESTIMONIALS = [
   {
     id: 5,
     category: "Economia e Marketing",
-    icon: icEcon,
+    icon: CATEGORY_ICONS["economia"],
     quote:
       "A análise de mercado que recebemos foi de um nível de senioridade impressionante. São talentos com uma visão estratégica do consumidor brasileiro que muitas agências experientes não possuem.",
     author: {
@@ -108,7 +80,7 @@ const TESTIMONIALS = [
   {
     id: 6,
     category: "Direito",
-    icon: icDireito,
+    icon: CATEGORY_ICONS["direito"],
     quote:
       "Navegar no cenário regulatório brasileiro é um desafio constante. A consultoria jurídica deste time nos forneceu insights claros e a segurança necessária para avançar com um de nossos projetos mais inovadores.",
     author: {
