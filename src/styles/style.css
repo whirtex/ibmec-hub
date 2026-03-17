@@ -158,6 +158,14 @@ ul {
   content: none;
 }
 
+/* Mobile: borda esquerda dourada na rota ativa */
+.header__nav li a.nav-active:not(.btn) {
+  color: var(--color-primary-dark);
+  font-weight: 700;
+  padding-left: 12px;
+  border-left: 3px solid var(--color-accent);
+}
+
 .header__actions {
   display: none;
 }
@@ -953,6 +961,36 @@ ul {
   }
   .header__nav li a:not(.btn):hover::after {
     width: 100%;
+  }
+
+  /* Ativo desktop — underline azul-escuro 2px, sem dourado */
+  .header__nav li a.nav-active:not(.btn) {
+    border-left: none;
+    padding: 8px 0;
+    margin: 0;
+    border-radius: 0;
+    background: transparent;
+    font-weight: 700;
+    color: var(--color-primary-dark);
+  }
+  .header__nav li a.nav-active:not(.btn)::after {
+    display: block;
+    width: 100%;
+    background-color: var(--color-primary-dark);
+  }
+
+  /* Trigger "Projetos" ativo */
+  .nav-link-trigger--active {
+    padding: 8px 0;
+    margin: 0;
+    border-radius: 0;
+    background: transparent;
+    font-weight: 700 !important;
+  }
+  .nav-link-trigger--active::after {
+    display: block !important;
+    width: 100% !important;
+    background-color: var(--color-primary-dark) !important;
   }
 
   .header__mobile-only {

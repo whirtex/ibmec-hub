@@ -1,34 +1,41 @@
 import { useEffect, useState, useCallback, useRef } from "react";
-import { Link } from "react-router-dom";
+import { NavLink, Link, useMatch } from "react-router-dom";
 import logo from "../assets/img/logo-Ibmec.svg";
 import { CATEGORIES, MEGAMENU_COLUMNS } from "../constants/projects";
 
+// Função utilitária — retorna a classe correta pro NavLink
+const navClass = ({ isActive }) => (isActive ? "nav-active" : undefined);
+
 export default function Header({ onOpenLogin }) {
-  const [menuOpen,             setMenuOpen]             = useState(false);
-  const [isProjetosMenuOpen,   setIsProjetosMenuOpen]   = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [isProjetosMenuOpen, setIsProjetosMenuOpen] = useState(false);
   const [isMobileProjetosOpen, setIsMobileProjetosOpen] = useState(false);
   const closeTimer = useRef(null);
 
-  // Fecha menu mobile no resize ou com "Esc"
+  // Detecta se qualquer rota /projetos/* está ativa (para o trigger do megamenu)
+  const projetosAtivo = useMatch("/projetos/*");
+
   useEffect(() => {
-    const onResize  = () => { if (window.innerWidth > 600) setMenuOpen(false); };
-    const onKeyDown = (e) => { if (e.key === "Escape") setMenuOpen(false); };
-    window.addEventListener("resize",  onResize);
+    const onResize = () => {
+      if (window.innerWidth > 600) setMenuOpen(false);
+    };
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("resize", onResize);
     window.addEventListener("keydown", onKeyDown);
     return () => {
-      window.removeEventListener("resize",  onResize);
+      window.removeEventListener("resize", onResize);
       window.removeEventListener("keydown", onKeyDown);
     };
   }, []);
 
-  // Trava scroll quando menu mobile está aberto
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
   }, [menuOpen]);
 
   const closeMenu = useCallback(() => setMenuOpen(false), []);
 
-  // Hover com "grace period" para o megamenu desktop não fechar ao mover o mouse
   const handleMenuEnter = () => {
     clearTimeout(closeTimer.current);
     setIsProjetosMenuOpen(true);
@@ -44,7 +51,12 @@ export default function Header({ onOpenLogin }) {
       <div className="header__top-bar" />
 
       <div className="container header__container">
-        <Link to="/" className="header__logo" aria-label="Logo Ibmec" onClick={closeMenu}>
+        <Link
+          to="/"
+          className="header__logo"
+          aria-label="Logo Ibmec"
+          onClick={closeMenu}
+        >
           <img src={logo} alt="Logo Ibmec" />
         </Link>
 
@@ -65,8 +77,21 @@ export default function Header({ onOpenLogin }) {
           aria-label="navegação principal"
         >
           <ul>
-            <li><Link to="/"           onClick={closeMenu}>Início</Link></li>
-            <li><Link to="/quem-somos" onClick={closeMenu}>Quem Somos</Link></li>
+            {/* NavLink com end para não ficar ativo em subrotas */}
+            <li>
+              <NavLink to="/" end className={navClass} onClick={closeMenu}>
+                Início
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/quem-somos"
+                className={navClass}
+                onClick={closeMenu}
+              >
+                Quem Somos
+              </NavLink>
+            </li>
 
             {/* ── PROJETOS MOBILE (acordeão) ── */}
             <li
@@ -76,8 +101,11 @@ export default function Header({ onOpenLogin }) {
             >
               <a
                 href="#projetos"
-                className="accordion-trigger"
-                onClick={(e) => { e.preventDefault(); setIsMobileProjetosOpen((v) => !v); }}
+                className={`accordion-trigger${projetosAtivo ? " nav-active" : ""}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsMobileProjetosOpen((v) => !v);
+                }}
               >
                 Projetos
                 <span className="accordion-arrow" />
@@ -87,9 +115,13 @@ export default function Header({ onOpenLogin }) {
                 <ul className="accordion-submenu">
                   {CATEGORIES.map(({ slug, label }) => (
                     <li key={slug}>
-                      <Link to={`/projetos/${slug}`} onClick={closeMenu}>
+                      <NavLink
+                        to={`/projetos/${slug}`}
+                        className={navClass}
+                        onClick={closeMenu}
+                      >
                         {label}
-                      </Link>
+                      </NavLink>
                     </li>
                   ))}
                 </ul>
@@ -102,7 +134,10 @@ export default function Header({ onOpenLogin }) {
               onMouseEnter={handleMenuEnter}
               onMouseLeave={handleMenuLeave}
             >
-              <span className="nav-link-trigger">
+              {/* Span recebe classe de ativo quando qualquer /projetos/* está aberto */}
+              <span
+                className={`nav-link-trigger${projetosAtivo ? " nav-link-trigger--active" : ""}`}
+              >
                 Projetos
                 <span className="accordion-arrow dropdown-arrow" />
               </span>
@@ -117,13 +152,14 @@ export default function Header({ onOpenLogin }) {
                     {MEGAMENU_COLUMNS.map((col, colIdx) => (
                       <div key={colIdx} className="megamenu-column">
                         {col.map(({ slug, label }) => (
-                          <Link
+                          <NavLink
                             key={slug}
                             to={`/projetos/${slug}`}
+                            className={navClass}
                             onClick={closeMegamenu}
                           >
                             {label}
-                          </Link>
+                          </NavLink>
                         ))}
                       </div>
                     ))}
@@ -137,13 +173,21 @@ export default function Header({ onOpenLogin }) {
               <button
                 type="button"
                 className="btn btn--entrar"
-                onClick={(e) => { e.stopPropagation(); onOpenLogin?.(); closeMenu(); }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onOpenLogin?.();
+                  closeMenu();
+                }}
               >
                 Entrar
               </button>
             </li>
             <li className="header__mobile-only">
-              <Link to="/cadastro" className="btn btn--cadastre" onClick={closeMenu}>
+              <Link
+                to="/cadastro"
+                className="btn btn--cadastre"
+                onClick={closeMenu}
+              >
                 Cadastre-se
               </Link>
             </li>
@@ -152,7 +196,11 @@ export default function Header({ onOpenLogin }) {
 
         {/* ── BOTÕES DESKTOP ── */}
         <div className="header__actions">
-          <button type="button" className="btn btn--entrar" onClick={onOpenLogin}>
+          <button
+            type="button"
+            className="btn btn--entrar"
+            onClick={onOpenLogin}
+          >
             Entrar
           </button>
           <Link to="/cadastro" className="btn btn--cadastre">
