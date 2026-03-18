@@ -25,22 +25,26 @@ export default function Footer() {
             <br />
             Barra da Tijuca, Rio de Janeiro
           </p>
-          <a href="#">Entre em contato conosco</a>
-          <a href="#">Feedback do site</a>
+          <button type="button" className="footer__text-btn">
+            Entre em contato conosco
+          </button>
+          <button type="button" className="footer__text-btn">
+            Feedback do site
+          </button>
 
           <div className="footer__social-links">
             <a href="https://x.com/Ibmec_oficial" target="_blank" rel="noreferrer">
               <img src={twitter}   alt="Twitter" />
             </a>
-            <a href="#" target="_blank" rel="noreferrer">
+            <button type="button" className="footer__social-btn" aria-label="Instagram">
               <img src={instagram} alt="Instagram" />
-            </a>
-            <a href="#" target="_blank" rel="noreferrer">
+            </button>
+            <button type="button" className="footer__social-btn" aria-label="TikTok">
               <img src={tiktok}    alt="TikTok" />
-            </a>
-            <a href="#" target="_blank" rel="noreferrer">
+            </button>
+            <button type="button" className="footer__social-btn" aria-label="LinkedIn">
               <img src={linkedin}  alt="LinkedIn" />
-            </a>
+            </button>
           </div>
         </div>
 
@@ -57,9 +61,21 @@ export default function Footer() {
 
           <ul className="footer__list footer__who-list">
             <li><Link to="/quem-somos">Quem somos</Link></li>
-            <li><a href="#">Perguntas Frequentes</a></li>
-            <li><a href="#">Responsabilidade social</a></li>
-            <li><a href="#">Informações Acadêmicas</a></li>
+            <li>
+              <button type="button" className="footer__text-btn">
+                Perguntas Frequentes
+              </button>
+            </li>
+            <li>
+              <button type="button" className="footer__text-btn">
+                Responsabilidade social
+              </button>
+            </li>
+            <li>
+              <button type="button" className="footer__text-btn">
+                Informações Acadêmicas
+              </button>
+            </li>
           </ul>
         </div>
 
@@ -92,8 +108,12 @@ export default function Footer() {
         <div className="container bottom-bar__container">
           <p>© IBMEC - Todos os direitos reservados</p>
           <div className="bottom-bar__links">
-            <a href="#">Política de privacidade</a>
-            <a href="#">Código de Ética</a>
+            <button type="button" className="footer__text-btn">
+              Política de privacidade
+            </button>
+            <button type="button" className="footer__text-btn">
+              Código de Ética
+            </button>
           </div>
         </div>
       </div>

@@ -122,7 +122,11 @@ export default function QuemSomos() {
             <Link to="/cadastro" className="qs-cta__btn qs-cta__btn--accent">
               Cadastrar empresa
             </Link>
-            <Link to="/#projetos" className="qs-cta__btn qs-cta__btn--outline">
+            <Link
+              to="/"
+              state={{ scrollTo: "projetos" }}
+              className="qs-cta__btn qs-cta__btn--outline"
+            >
               Ver projetos
             </Link>
           </div>

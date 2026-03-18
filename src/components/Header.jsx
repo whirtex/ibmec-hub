@@ -108,20 +108,21 @@ export default function Header({ onOpenLogin }) {
                 isMobileProjetosOpen ? "accordion--open" : ""
               }`}
             >
-              <a
-                href="#projetos"
+              <button
+                type="button"
                 className={`accordion-trigger${projetosAtivo ? " nav-active" : ""}`}
-                onClick={(e) => {
-                  e.preventDefault();
+                aria-expanded={isMobileProjetosOpen}
+                aria-controls="mobile-projetos-submenu"
+                onClick={() => {
                   setIsMobileProjetosOpen((v) => !v);
                 }}
               >
                 Projetos
                 <span className="accordion-arrow" />
-              </a>
+              </button>
 
               {isMobileProjetosOpen && (
-                <ul className="accordion-submenu">
+                <ul id="mobile-projetos-submenu" className="accordion-submenu">
                   {CATEGORIES.map(({ slug, label }) => (
                     <li key={slug}>
                       <NavLink

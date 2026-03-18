@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import "../styles/styleLogin.css";
 import logo from "../assets/img/logo-Ibmec.svg";
 
@@ -100,16 +101,16 @@ export default function LoginModal({ open, onClose }) {
             {loading ? "Entrando…" : "Entrar"}
           </button>
 
-          <a href="#" className="login-modal__forgot">
+          <button type="button" className="login-modal__forgot">
             Esqueci minha senha
-          </a>
+          </button>
         </form>
 
         <div className="login-modal__footer">
           Não tem conta?{" "}
-          <a href="/cadastro" className="login-modal__signup">
+          <Link to="/cadastro" className="login-modal__signup" onClick={onClose}>
             Cadastre-se
-          </a>
+          </Link>
         </div>
       </div>
     </div>

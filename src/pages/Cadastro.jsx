@@ -281,8 +281,13 @@ export default function Cadastro() {
 
         <div className="reg-footer">
           Ao continuar, você concorda com os nossos{" "}
-          <a href="#">Termos de Serviço</a> e{" "}
-          <a href="#">Política de Privacidade</a>
+          <button type="button" className="reg-footer__btn">
+            Termos de Serviço
+          </button>{" "}
+          e{" "}
+          <button type="button" className="reg-footer__btn">
+            Política de Privacidade
+          </button>
         </div>
       </section>
     </main>

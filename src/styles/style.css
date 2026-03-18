@@ -391,14 +391,18 @@ ul {
   width: 100%;
 }
 
-/* O link <a> "Projetos" que vira o gatilho do acordeão */
-.header__nav li a.accordion-trigger {
+/* O gatilho "Projetos" que vira o botão do acordeão */
+.header__nav li .accordion-trigger {
   padding: 12px 4px;
   font-weight: 700;
   font-size: 1.05rem;
   color: var(--color-primary-dark);
   border-bottom: 1px solid var(--color-border);
   position: relative;
+  border: 0;
+  background: transparent;
+  font-family: inherit;
+  text-align: left;
 
   /* Adiciona flex para alinhar a seta */
   display: flex;
@@ -827,7 +831,8 @@ ul {
 }
 
 .footer__col--brand p,
-.footer__col--brand > a {
+.footer__col--brand > a,
+.footer__col--brand > .footer__text-btn {
   margin-top: 29px;
   display: block;
   color: var(--color-primary-light);
@@ -844,6 +849,15 @@ ul {
   width: 20px;
   height: 20px;
   transition: opacity 0.3s ease;
+}
+.footer__social-btn {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 .footer__social-links img:hover {
   opacity: 0.8;
@@ -864,11 +878,22 @@ ul {
   flex-direction: column;
   gap: 15px;
 }
-.footer__col a {
+.footer__col a,
+.footer__text-btn {
   color: var(--color-primary-light);
 }
-.footer__col a:hover {
+.footer__col a:hover,
+.footer__text-btn:hover {
   color: var(--color-primary-light);
+}
+
+.footer__text-btn {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
 }
 
 .footer__col--projects {
@@ -930,7 +955,8 @@ ul {
   gap: 0.75rem;
   text-align: center;
 }
-.bottom-bar__container a {
+.bottom-bar__container a,
+.bottom-bar__container .footer__text-btn {
   color: var(--color-primary-light);
   margin-left: 0;
 }
@@ -946,6 +972,7 @@ ul {
 }
 
 .footer__who-list a,
+.footer__who-list .footer__text-btn,
 .footer__project-list a {
   display: block;
   padding: 6px 0;

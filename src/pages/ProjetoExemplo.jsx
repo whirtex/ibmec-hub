@@ -80,7 +80,9 @@ export default function ProjetoExemplo() {
           <span className="page-breadcrumb__sep" aria-hidden="true">
             ›
           </span>
-          <Link to="/#projetos">Projetos</Link>
+          <Link to="/" state={{ scrollTo: "projetos" }}>
+            Projetos
+          </Link>
           <span className="page-breadcrumb__sep" aria-hidden="true">
             ›
           </span>

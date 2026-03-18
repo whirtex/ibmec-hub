@@ -256,6 +256,21 @@
   text-decoration: underline;
 }
 
+.reg-footer__btn {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font: inherit;
+  color: var(--color-primary-dark);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.reg-footer__btn:hover {
+  color: var(--color-accent-hover);
+  text-decoration: underline;
+}
+
 /* ═══════════════════════════
    TELA DE SUCESSO
    ═══════════════════════════ */
