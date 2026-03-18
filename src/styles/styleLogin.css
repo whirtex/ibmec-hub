@@ -10,14 +10,12 @@
   align-items: center;
   z-index: 9999;
   padding: 20px;
-
   opacity: 0;
   visibility: hidden;
   transition:
     opacity 0.3s ease,
     visibility 0.3s ease;
 }
-
 .modal-overlay.visivel {
   opacity: 1;
   visibility: visible;
@@ -39,17 +37,10 @@
   align-items: center;
   margin-bottom: 10px;
 }
-
 .login-modal__logo {
   width: 150px;
   height: auto;
   display: block;
-}
-
-.login-modal .logo h1 {
-  color: #003366;
-  font-size: 36px;
-  font-weight: 700;
 }
 
 .login-modal .title {
@@ -64,6 +55,16 @@
   margin-bottom: 20px;
 }
 
+/* Label acessível */
+.login-modal__label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-primary-dark);
+  margin-bottom: 6px;
+}
+
 .login-modal input {
   width: 100%;
   padding: 14px;
@@ -75,15 +76,53 @@
   outline: none;
   transition: background-color 0.3s;
 }
-
 .login-modal input::placeholder {
   color: #666;
 }
-
 .login-modal input:focus {
   background-color: #ddd;
 }
+.login-modal input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 
+/* Toggle de senha */
+.login-modal__senha-wrapper {
+  position: relative;
+}
+.login-modal__senha-wrapper input {
+  padding-right: 44px;
+}
+.login-modal__senha-wrapper input::-ms-reveal,
+.login-modal__senha-wrapper input::-ms-clear,
+.login-modal__senha-wrapper input::-webkit-credentials-auto-fill-button {
+  display: none;
+}
+.login-modal__senha-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #aaa;
+  font-size: 0.9rem;
+  padding: 4px;
+  line-height: 1;
+  transition: color 0.18s;
+}
+.login-modal__senha-toggle:hover {
+  color: var(--color-primary-dark);
+  transform: translateY(-50%);
+}
+.login-modal__senha-toggle:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Botão confirmar */
 .btn-confirm {
   width: 100%;
   padding: 14px;
@@ -97,15 +136,18 @@
   transition: background-color 0.3s;
   margin-top: 10px;
 }
-
 .btn-confirm:hover {
   background-color: #004488;
 }
-
 .btn-confirm:active {
   background-color: #002244;
 }
+.btn-confirm:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 
+/* Fechar */
 .close-btn {
   position: absolute;
   top: 15px;
@@ -117,13 +159,16 @@
   cursor: pointer;
   padding: 5px 10px;
   line-height: 1;
-  text-decoration: none;
 }
-
 .close-btn:hover {
   color: #333;
 }
+.close-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
 
+/* Links */
 .login-modal__forgot {
   display: block;
   text-align: center;
@@ -145,7 +190,6 @@
   font-size: 13px;
   color: #888;
 }
-
 .login-modal__signup {
   color: var(--color-primary-dark);
   font-weight: 700;
