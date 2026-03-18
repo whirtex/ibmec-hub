@@ -101,7 +101,6 @@ export default function QuemSomos() {
         <div className="qs-video-wrapper">
           <video
             src={ibmecVideo}
-            poster={equipeImg}
             controls
             title="Depoimento Ibmec"
             preload="metadata"
