@@ -75,6 +75,17 @@ export default function ProjetoExemplo() {
   return (
     <>
       <main className="main-content">
+        {/* ── Breadcrumb ── */}
+        <nav className="projeto-breadcrumb" aria-label="Navegação estrutural">
+          <Link to="/">Início</Link>
+          <span aria-hidden="true">›</span>
+          <Link to="/#projetos">Projetos</Link>
+          <span aria-hidden="true">›</span>
+          <Link to={`/projetos/${categoria}`}>{categoryLabel}</Link>
+          <span aria-hidden="true">›</span>
+          <span aria-current="page">Detalhe</span>
+        </nav>
+
         <section className="project-container">
           <div className="project-info">
             <h1>{PROJECT.title}</h1>

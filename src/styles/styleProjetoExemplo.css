@@ -554,3 +554,29 @@ figure img {
     padding: 4rem 1.75rem 5rem;
   }
 }
+
+/* ── BREADCRUMB ─────────────────────────────────────── */
+.projeto-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  color: #888;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+.projeto-breadcrumb a {
+  color: #888;
+  text-decoration: none;
+  transition: color 0.18s;
+}
+.projeto-breadcrumb a:hover {
+  color: var(--color-primary-dark);
+}
+.projeto-breadcrumb span[aria-current="page"] {
+  color: var(--color-primary-dark);
+  font-weight: 600;
+}
+.projeto-breadcrumb span[aria-hidden="true"] {
+  color: #ccc;
+}
