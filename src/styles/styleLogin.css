@@ -124,7 +124,34 @@
   color: #333;
 }
 
-.login-modal .logo img {
-  height: 40px;
-  margin: 0 auto;
+.login-modal__forgot {
+  display: block;
+  text-align: center;
+  margin-top: 14px;
+  font-size: 13px;
+  color: #888;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.login-modal__forgot:hover {
+  color: var(--color-primary-dark);
+}
+
+.login-modal__footer {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+  text-align: center;
+  font-size: 13px;
+  color: #888;
+}
+
+.login-modal__signup {
+  color: var(--color-primary-dark);
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.login-modal__signup:hover {
+  color: var(--color-accent-hover);
 }

@@ -53,7 +53,18 @@ export default function LoginModal({ open, onClose }) {
           <button type="submit" className="btn-confirm">
             Confirmar
           </button>
+
+          <a href="#" className="login-modal__forgot">
+            Esqueci minha senha
+          </a>
         </form>
+
+        <div className="login-modal__footer">
+          Não tem conta?{" "}
+          <a href="/cadastro" className="login-modal__signup">
+            Cadastre-se
+          </a>
+        </div>
       </div>
     </div>
   );
