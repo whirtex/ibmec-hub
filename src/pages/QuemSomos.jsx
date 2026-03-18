@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "../styles/styleQuemSomos.css";
 import ibmecVideo from "../assets/img/ibmec.mp4";
 import equipeImg from "../assets/img/quem-somos-img.png";
@@ -100,10 +101,32 @@ export default function QuemSomos() {
         <div className="qs-video-wrapper">
           <video
             src={ibmecVideo}
+            poster={equipeImg}
             controls
             title="Depoimento Ibmec"
             preload="metadata"
           />
+        </div>
+      </section>
+
+      {/* ── CTA FINAL ── */}
+      <section className="qs-cta">
+        <div className="container qs-cta__inner">
+          <div className="qs-cta__text">
+            <h2>Pronto para conectar?</h2>
+            <p>
+              Cadastre sua empresa e encontre o talento certo para o seu próximo
+              projeto.
+            </p>
+          </div>
+          <div className="qs-cta__actions">
+            <Link to="/cadastro" className="qs-cta__btn qs-cta__btn--accent">
+              Cadastrar empresa
+            </Link>
+            <Link to="/#projetos" className="qs-cta__btn qs-cta__btn--outline">
+              Ver projetos
+            </Link>
+          </div>
         </div>
       </section>
     </main>

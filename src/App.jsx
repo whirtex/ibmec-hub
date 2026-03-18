@@ -3,11 +3,12 @@ import { LoginProvider } from "./context/LoginContext";
 import Layout from "./components/Layout";
 import ScrollToTop from "./components/ScrollToTop";
 
-import Home          from "./pages/Home";
-import Cadastro      from "./pages/Cadastro";
-import QuemSomos     from "./pages/QuemSomos";
-import ProjectsPage  from "./pages/Projetos";
+import Home from "./pages/Home";
+import Cadastro from "./pages/Cadastro";
+import QuemSomos from "./pages/QuemSomos";
+import ProjectsPage from "./pages/Projetos";
 import ProjetoExemplo from "./pages/ProjetoExemplo";
+import NotFound from "./pages/NotFound";
 
 export default function App() {
   return (
@@ -20,13 +21,18 @@ export default function App() {
         <ScrollToTop />
         <Layout>
           <Routes>
-            <Route path="/"                              element={<Home />} />
-            <Route path="/cadastro"                      element={<Cadastro />} />
-            <Route path="/quem-somos"                    element={<QuemSomos />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/cadastro" element={<Cadastro />} />
+            <Route path="/quem-somos" element={<QuemSomos />} />
             {/* Rota genérica de categoria — ex.: /projetos/back-end */}
-            <Route path="/projetos/:categoria"           element={<ProjectsPage />} />
+            <Route path="/projetos/:categoria" element={<ProjectsPage />} />
             {/* Rota de projeto individual — ex.: /projetos/back-end/exemplo */}
-            <Route path="/projetos/:categoria/:slug"     element={<ProjetoExemplo />} />
+            <Route
+              path="/projetos/:categoria/:slug"
+              element={<ProjetoExemplo />}
+            />
+            {/* Rota 404 — captura qualquer URL não mapeada */}
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Layout>
       </LoginProvider>
