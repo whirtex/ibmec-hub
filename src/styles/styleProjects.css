@@ -39,11 +39,86 @@
   font-size: 1rem;
 }
 
+.projects__search-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.projects__search-input {
+  flex: 1 1 280px;
+  min-height: 44px;
+  border: 1.5px solid var(--color-border);
+  border-radius: 10px;
+  padding: 0 14px;
+  font: inherit;
+  color: var(--color-primary-dark);
+}
+
+.projects__search-input:focus {
+  outline: none;
+  border-color: var(--color-primary-extra-light);
+}
+
+.projects__search-btn,
+.projects__search-clear {
+  min-height: 44px;
+  border-radius: 10px;
+  padding: 0 16px;
+  font-weight: 700;
+  cursor: pointer;
+  font: inherit;
+}
+
+.projects__search-btn {
+  border: 1.5px solid var(--color-primary-dark);
+  background: var(--color-primary-dark);
+  color: var(--color-text-light);
+}
+
+.projects__search-btn:hover {
+  background: var(--color-primary-light);
+}
+
+.projects__search-clear {
+  border: 1.5px solid var(--color-primary-dark);
+  background: transparent;
+  color: var(--color-primary-dark);
+}
+
+.projects__search-clear:hover {
+  background: rgba(0, 37, 85, 0.06);
+}
+
+.projects__search-result {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
 /* Grid */
 .projects__grid {
   display: grid;
   gap: 22px;
   grid-template-columns: 1fr;
+}
+
+.projects__empty {
+  border: 1px dashed var(--color-border);
+  border-radius: 14px;
+  padding: 28px;
+  background: var(--color-bg-light);
+}
+
+.projects__empty h3 {
+  margin: 0 0 6px;
+  color: var(--color-primary-dark);
+}
+
+.projects__empty p {
+  margin: 0;
+  color: #64748b;
 }
 
 /* Card */

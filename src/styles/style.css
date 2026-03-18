@@ -575,7 +575,7 @@ ul {
   margin-top: 0.6rem;
   text-align: left;
 }
-.tags span {
+.tags button {
   display: inline-block;
   background-color: rgba(255, 255, 255, 0.08);
   color: rgba(245, 245, 245, 0.8);
@@ -589,8 +589,10 @@ ul {
     background 0.2s,
     border-color 0.2s,
     color 0.2s;
+  font-family: inherit;
 }
-.tags span:hover {
+.tags button:hover,
+.tags button:focus-visible {
   background-color: rgba(255, 184, 28, 0.15);
   border-color: rgba(255, 184, 28, 0.5);
   color: var(--color-accent);

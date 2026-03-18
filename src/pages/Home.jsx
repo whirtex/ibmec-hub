@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { CATEGORIES, CATEGORY_ICONS } from "../constants/projects";
 
 // ── Fotos dos autores de depoimentos ──────────────────────────────────────
@@ -94,6 +94,22 @@ const TESTIMONIALS = [
 
 export default function Home() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const searchInputRef = useRef(null);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  function redirectToProjects(rawTerm) {
+    const value = rawTerm.trim();
+    const query = new URLSearchParams();
+    if (value) query.set("q", value);
+    const queryString = query.toString();
+    navigate(`/projetos/todos${queryString ? `?${queryString}` : ""}`);
+  }
+
+  function onSearchSubmit(e) {
+    e.preventDefault();
+    redirectToProjects(searchTerm);
+  }
 
   // Scroll suave para seção quando a navegação vem com { state: { scrollTo } }
   useEffect(() => {
@@ -123,14 +139,17 @@ export default function Home() {
             <em>Encontre talentos no Ibmec.</em>
           </h2>
 
-          <div className="search-box">
+          <form className="search-box" onSubmit={onSearchSubmit}>
             <input
               id="hero-search"
               type="text"
               placeholder="Buscar projetos, áreas ou tecnologias…"
+              ref={searchInputRef}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <button>Pesquisar</button>
-          </div>
+            <button type="submit">Pesquisar</button>
+          </form>
 
           <p className="popular">Pesquisas populares</p>
           <div className="tags">
@@ -139,18 +158,16 @@ export default function Home() {
               "Aplicativo para pets",
               "IA e Dados",
             ].map((tag) => (
-              <span
+              <button
                 key={tag}
+                type="button"
                 onClick={() => {
-                  const input = document.getElementById("hero-search");
-                  if (input) {
-                    input.value = tag;
-                    input.focus();
-                  }
+                  setSearchTerm(tag);
+                  searchInputRef.current?.focus();
                 }}
               >
                 {tag}
-              </span>
+              </button>
             ))}
           </div>
         </div>
