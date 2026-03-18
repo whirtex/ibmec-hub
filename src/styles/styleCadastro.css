@@ -83,9 +83,8 @@
   margin-bottom: 10px;
 }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
+.form-group--senha {
+  position: relative;
 }
 
 .form-group input,
@@ -103,6 +102,37 @@
     box-shadow 0.18s,
     background 0.18s;
   appearance: auto;
+}
+
+/* Sobrescreve o padding-right depois da regra geral — evita override pelo shorthand */
+.form-group--senha input {
+  padding-right: 44px;
+}
+
+/* Remove o botão nativo de revelar senha do Edge/Chrome */
+.form-group--senha input::-ms-reveal,
+.form-group--senha input::-ms-clear,
+.form-group--senha input::-webkit-credentials-auto-fill-button {
+  display: none;
+}
+
+.senha-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #aaa;
+  font-size: 0.95rem;
+  padding: 4px;
+  line-height: 1;
+  transition: color 0.18s;
+}
+.senha-toggle:hover {
+  color: var(--color-primary-dark);
+  transform: translateY(-50%);
 }
 .form-group input:focus,
 .form-group select:focus {

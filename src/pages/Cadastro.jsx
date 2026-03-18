@@ -32,6 +32,7 @@ export default function Cadastro() {
   const [enviando, setEnviando] = useState(false);
   const [enviado, setEnviado] = useState(false);
   const [nomeEnviado, setNomeEnviado] = useState("");
+  const [showSenha, setShowSenha] = useState(false);
 
   function setField(name, value) {
     setForm((f) => ({ ...f, [name]: value }));
@@ -160,11 +161,11 @@ export default function Cadastro() {
                   onChange={onChange}
                 />
               </div>
-              <div className="form-group">
+              <div className="form-group form-group--senha">
                 <input
                   id="senha"
                   name="senha"
-                  type="password"
+                  type={showSenha ? "text" : "password"}
                   placeholder="Senha"
                   autoComplete="new-password"
                   required
@@ -174,6 +175,17 @@ export default function Cadastro() {
                   value={form.senha}
                   onChange={onChange}
                 />
+                <button
+                  type="button"
+                  className="senha-toggle"
+                  aria-label={showSenha ? "Ocultar senha" : "Mostrar senha"}
+                  onClick={() => setShowSenha((v) => !v)}
+                >
+                  <i
+                    className={`fa-solid ${showSenha ? "fa-eye-slash" : "fa-eye"}`}
+                    aria-hidden="true"
+                  />
+                </button>
               </div>
             </div>
           </div>
