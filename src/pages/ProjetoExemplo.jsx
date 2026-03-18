@@ -1,7 +1,31 @@
 import { useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import "../styles/styleProjetoExemplo.css";
 import "../styles/style.css";
 import imagemExemplo from "../assets/img/imagemExemplo.png";
+import { CATEGORIES, CATEGORY_ICONS } from "../constants/projects";
+
+// Projetos relacionados de exemplo — futuramente virão filtrados por categoria da API
+const RELATED = [
+  {
+    id: 2,
+    title: "API de Gestão de Estoque",
+    campus: "Ibmec Centro, RJ",
+    tags: ["Python", "Django"],
+  },
+  {
+    id: 3,
+    title: "Dashboard de Analytics",
+    campus: "Ibmec Faria Lima, SP",
+    tags: ["Vue.js", "D3.js"],
+  },
+  {
+    id: 4,
+    title: "Plataforma de E-learning",
+    campus: "Ibmec Paulista, SP",
+    tags: ["React", "MySQL"],
+  },
+];
 
 // Dados de exemplo — substituir por props/API quando o backend estiver pronto.
 const PROJECT = {
@@ -26,6 +50,10 @@ const PROJECT = {
 };
 
 export default function ProjetoExemplo() {
+  const { categoria } = useParams();
+  const categoryLabel =
+    CATEGORIES.find((c) => c.slug === categoria)?.label ?? "Projetos";
+  const categoryIcon = CATEGORY_ICONS[categoria];
   const [form, setForm] = useState({ nome: "", email: "", mensagem: "" });
   const [enviado, setEnviado] = useState(false);
   const [enviando, setEnviando] = useState(false);
@@ -126,29 +154,15 @@ export default function ProjetoExemplo() {
             </p>
 
             <ul className="equipe-lista">
-              <li className="equipe-membro">
-                <div className="equipe-avatar">P1</div>
-                <div className="equipe-info">
-                  <strong>Pessoa 1</strong>
-                  <span>Função 1</span>
-                </div>
-              </li>
-
-              <li className="equipe-membro">
-                <div className="equipe-avatar">P2</div>
-                <div className="equipe-info">
-                  <strong>Pessoa 2</strong>
-                  <span>Função 2</span>
-                </div>
-              </li>
-
-              <li className="equipe-membro">
-                <div className="equipe-avatar">P3</div>
-                <div className="equipe-info">
-                  <strong>Pessoa 3</strong>
-                  <span>Função 3</span>
-                </div>
-              </li>
+              {PROJECT.team.map(({ name, role, initials }) => (
+                <li key={name} className="equipe-membro">
+                  <div className="equipe-avatar">{initials}</div>
+                  <div className="equipe-info">
+                    <strong>{name}</strong>
+                    <span>{role}</span>
+                  </div>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -223,6 +237,55 @@ export default function ProjetoExemplo() {
                 </button>
               </form>
             )}
+          </div>
+        </div>
+      </section>
+
+      {/* ── PROJETOS RELACIONADOS ── */}
+      <section className="relacionados">
+        <div className="relacionados__inner">
+          <div className="relacionados__header">
+            <span className="relacionados__eyebrow">Mesma área</span>
+            <h2>Outros projetos de {categoryLabel}</h2>
+          </div>
+
+          <div className="relacionados__grid">
+            {RELATED.map(({ id, title, campus, tags }) => (
+              <Link
+                key={id}
+                to={`/projetos/${categoria}/exemplo-${id}`}
+                className="relacionados__card"
+              >
+                <div className="relacionados__card-avatar">
+                  {categoryIcon && (
+                    <img src={categoryIcon} alt={categoryLabel} />
+                  )}
+                </div>
+                <div className="relacionados__card-body">
+                  <h3>{title}</h3>
+                  <p>{campus}</p>
+                  <div className="relacionados__tags">
+                    {tags.map((tag) => (
+                      <span key={tag} className="relacionados__tag">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <span className="relacionados__arrow" aria-hidden="true">
+                  →
+                </span>
+              </Link>
+            ))}
+          </div>
+
+          <div className="relacionados__footer">
+            <Link
+              to={`/projetos/${categoria}`}
+              className="relacionados__ver-todos"
+            >
+              Ver todos os projetos de {categoryLabel}
+            </Link>
           </div>
         </div>
       </section>
