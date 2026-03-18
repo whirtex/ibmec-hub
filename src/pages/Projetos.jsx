@@ -55,7 +55,22 @@ export default function ProjectsPage() {
   return (
     <>
       <main className="projects" aria-label="Vitrine de projetos">
+        {/* ── Breadcrumb ── */}
+        <nav className="projects__breadcrumb" aria-label="Navegação estrutural">
+          <Link to="/">Início</Link>
+          <span className="projects__breadcrumb-sep" aria-hidden="true">
+            ›
+          </span>
+          <Link to="/#projetos">Projetos</Link>
+          <span className="projects__breadcrumb-sep" aria-hidden="true">
+            ›
+          </span>
+          <span aria-current="page">{categoryLabel}</span>
+        </nav>
+
+        {/* ── Título com eyebrow ── */}
         <section className="projects__title">
+          <span className="projects__eyebrow">Área de conhecimento</span>
           <h1>{categoryLabel}</h1>
           <p>Trabalhos desenvolvidos por alunos do Ibmec</p>
         </section>

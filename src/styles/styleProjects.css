@@ -11,8 +11,48 @@
   background: transparent;
 }
 
+/* Breadcrumb */
+.projects__breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  color: #888;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+.projects__breadcrumb a {
+  color: #888;
+  text-decoration: none;
+  transition: color 0.18s;
+}
+.projects__breadcrumb a:hover {
+  color: var(--color-primary-dark);
+}
+.projects__breadcrumb span[aria-current="page"] {
+  color: var(--color-primary-dark);
+  font-weight: 600;
+}
+.projects__breadcrumb-sep {
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+/* Eyebrow */
+.projects__eyebrow {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent-hover);
+  padding-left: 0.85rem;
+  border-left: 3px solid var(--color-accent);
+  margin-bottom: 0.6rem;
+}
+
 .projects__title {
-  text-align: center;
+  text-align: left;
   margin-bottom: 24px;
 }
 .projects__title h1 {
