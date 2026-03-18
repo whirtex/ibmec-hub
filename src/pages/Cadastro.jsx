@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/img/logo-Ibmec.svg";
-import { useLogin } from "../context/LoginContext";
+import { useLoginContext } from "../context/useLoginContext";
 import "../styles/styleCadastro.css";
 
 function maskCNPJ(value) {
@@ -26,7 +26,7 @@ const INITIAL_FORM = {
 };
 
 export default function Cadastro() {
-  const { openLogin } = useLogin();
+  const { openLogin } = useLoginContext();
   const formRef = useRef(null);
   const [form, setForm] = useState(INITIAL_FORM);
   const [enviando, setEnviando] = useState(false);

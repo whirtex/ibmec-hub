@@ -1,6 +1,5 @@
-import { createContext, useContext, useState } from "react";
-
-const LoginContext = createContext(null);
+import { useState } from "react";
+import { LoginContext } from "./useLoginContext";
 
 /**
  * Provê o estado do modal de login para toda a árvore de componentes,
@@ -13,18 +12,11 @@ export function LoginProvider({ children }) {
     <LoginContext.Provider
       value={{
         loginOpen,
-        openLogin:  () => setLoginOpen(true),
+        openLogin: () => setLoginOpen(true),
         closeLogin: () => setLoginOpen(false),
       }}
     >
       {children}
     </LoginContext.Provider>
   );
-}
-
-/** Hook de conveniência — lança erro se usado fora do LoginProvider. */
-export function useLogin() {
-  const ctx = useContext(LoginContext);
-  if (!ctx) throw new Error("useLogin must be used inside <LoginProvider>");
-  return ctx;
 }

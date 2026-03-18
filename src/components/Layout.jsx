@@ -1,10 +1,10 @@
-import Header     from "./Header";
-import Footer     from "./Footer";
+import Header from "./Header";
+import Footer from "./Footer";
 import LoginModal from "./LoginModal";
-import { useLogin } from "../context/LoginContext";
+import { useLoginContext } from "../context/useLoginContext";
 
 export default function Layout({ children }) {
-  const { loginOpen, openLogin, closeLogin } = useLogin();
+  const { loginOpen, openLogin, closeLogin } = useLoginContext();
 
   return (
     <>
