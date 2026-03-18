@@ -1,10 +1,11 @@
+/* ═══════════════════════════════════
+   LOGIN MODAL — Refinado e elegante
+   ═══════════════════════════════════ */
+
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  inset: 0;
+  background-color: rgba(0, 20, 50, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -13,81 +14,119 @@
   opacity: 0;
   visibility: hidden;
   transition:
-    opacity 0.3s ease,
-    visibility 0.3s ease;
+    opacity 0.25s ease,
+    visibility 0.25s ease;
 }
 .modal-overlay.visivel {
   opacity: 1;
   visibility: visible;
 }
 
+/* ── Card do modal ── */
 .login-modal {
-  background-color: white;
-  border-radius: 8px;
-  padding: 40px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
   width: 100%;
   max-width: 400px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 24px 64px rgba(0, 20, 50, 0.2);
   position: relative;
 }
 
+/* ── Fechar ── */
+.close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-background, #f3f3f3);
+  border: none;
+  font-size: 18px;
+  color: #888;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition:
+    background 0.18s,
+    color 0.18s;
+}
+.close-btn:hover {
+  background: #e8e8e8;
+  color: #333;
+}
+.close-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+/* ── Logo e título ── */
 .login-modal .logo {
   display: flex;
   justify-content: center;
-  align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 1.25rem;
 }
 .login-modal__logo {
-  width: 150px;
-  height: auto;
+  height: 36px;
+  width: auto;
   display: block;
 }
 
 .login-modal .title {
   text-align: center;
-  color: #333;
-  font-size: 18px;
-  margin-bottom: 30px;
-  font-weight: 500;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--color-primary-dark, #003366);
+  letter-spacing: -0.01em;
+  margin-bottom: 1.75rem;
 }
 
+/* ── Grupos de campo ── */
 .login-modal .input-group {
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
 }
 
-/* Label acessível */
 .login-modal__label {
   display: block;
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.04em;
-  color: var(--color-primary-dark);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-primary-dark, #003366);
   margin-bottom: 6px;
 }
 
 .login-modal input {
   width: 100%;
-  padding: 14px;
-  border: none;
-  background-color: #e8e8e8;
-  border-radius: 6px;
-  font-size: 15px;
-  color: #333;
+  padding: 12px 14px;
+  border: 1.5px solid #e0e0e0;
+  background: #fff;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: #222;
   outline: none;
-  transition: background-color 0.3s;
+  transition:
+    border-color 0.18s,
+    box-shadow 0.18s;
 }
 .login-modal input::placeholder {
-  color: #666;
+  color: #bbb;
 }
 .login-modal input:focus {
-  background-color: #ddd;
+  border-color: var(--color-primary-dark, #003366);
+  box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.09);
 }
 .login-modal input:disabled {
-  opacity: 0.6;
+  opacity: 0.55;
   cursor: not-allowed;
+  background: #f8f8f8;
 }
 
-/* Toggle de senha */
+/* ── Toggle senha ── */
 .login-modal__senha-wrapper {
   position: relative;
 }
@@ -107,95 +146,82 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: #aaa;
+  color: #bbb;
   font-size: 0.9rem;
   padding: 4px;
   line-height: 1;
   transition: color 0.18s;
 }
 .login-modal__senha-toggle:hover {
-  color: var(--color-primary-dark);
+  color: var(--color-primary-dark, #003366);
   transform: translateY(-50%);
 }
 .login-modal__senha-toggle:disabled {
   cursor: not-allowed;
-  opacity: 0.5;
+  opacity: 0.4;
 }
 
-/* Botão confirmar */
+/* ── Botão entrar ── */
 .btn-confirm {
   width: 100%;
-  padding: 14px;
-  background-color: #003366;
-  color: white;
+  height: 48px;
+  margin-top: 0.75rem;
+  background: var(--color-primary-dark, #003366);
+  color: #fff;
   border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: 600;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-family: inherit;
   cursor: pointer;
-  transition: background-color 0.3s;
-  margin-top: 10px;
+  letter-spacing: 0.02em;
+  transition:
+    background 0.18s,
+    transform 0.15s;
 }
-.btn-confirm:hover {
-  background-color: #004488;
+.btn-confirm:hover:not(:disabled) {
+  background: #002555;
+  transform: translateY(-1px);
 }
-.btn-confirm:active {
-  background-color: #002244;
+.btn-confirm:active:not(:disabled) {
+  background: #001e44;
+  transform: none;
 }
 .btn-confirm:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+  transform: none;
 }
 
-/* Fechar */
-.close-btn {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: none;
-  border: none;
-  font-size: 24px;
-  color: #666;
-  cursor: pointer;
-  padding: 5px 10px;
-  line-height: 1;
-}
-.close-btn:hover {
-  color: #333;
-}
-.close-btn:disabled {
-  cursor: not-allowed;
-  opacity: 0.4;
-}
-
-/* Links */
+/* ── Esqueci a senha ── */
 .login-modal__forgot {
   display: block;
   text-align: center;
-  margin-top: 14px;
-  font-size: 13px;
-  color: #888;
+  margin-top: 0.85rem;
+  font-size: 0.82rem;
+  color: #aaa;
   text-decoration: none;
-  transition: color 0.2s;
+  transition: color 0.18s;
 }
 .login-modal__forgot:hover {
-  color: var(--color-primary-dark);
+  color: var(--color-primary-dark, #003366);
 }
 
+/* ── Rodapé ── */
 .login-modal__footer {
-  margin-top: 24px;
-  padding-top: 20px;
-  border-top: 1px solid #eee;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #f0f0f0;
   text-align: center;
-  font-size: 13px;
-  color: #888;
+  font-size: 0.85rem;
+  color: #aaa;
 }
 .login-modal__signup {
-  color: var(--color-primary-dark);
+  color: var(--color-primary-dark, #003366);
   font-weight: 700;
   text-decoration: none;
-  transition: color 0.2s;
+  transition: color 0.18s;
 }
 .login-modal__signup:hover {
-  color: var(--color-accent-hover);
+  color: var(--color-accent-hover, #eaa90f);
 }
