@@ -125,6 +125,7 @@ export default function Home() {
 
           <div className="search-box">
             <input
+              id="hero-search"
               type="text"
               placeholder="Buscar projetos, áreas ou tecnologias…"
             />
@@ -133,9 +134,24 @@ export default function Home() {
 
           <p className="popular">Pesquisas populares</p>
           <div className="tags">
-            <span>Consultor de negócios</span>
-            <span>Aplicativo para pets</span>
-            <span>IA e Dados</span>
+            {[
+              "Consultor de negócios",
+              "Aplicativo para pets",
+              "IA e Dados",
+            ].map((tag) => (
+              <span
+                key={tag}
+                onClick={() => {
+                  const input = document.getElementById("hero-search");
+                  if (input) {
+                    input.value = tag;
+                    input.focus();
+                  }
+                }}
+              >
+                {tag}
+              </span>
+            ))}
           </div>
         </div>
       </section>
