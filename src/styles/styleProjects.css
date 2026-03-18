@@ -7,35 +7,8 @@
 .projects {
   max-width: 1150px;
   margin: 0 auto;
-  padding: 24px 16px 32px;
+  padding: 0 16px 32px;
   background: transparent;
-}
-
-/* Breadcrumb */
-.projects__breadcrumb {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.82rem;
-  color: #888;
-  margin-bottom: 1.5rem;
-  flex-wrap: wrap;
-}
-.projects__breadcrumb a {
-  color: #888;
-  text-decoration: none;
-  transition: color 0.18s;
-}
-.projects__breadcrumb a:hover {
-  color: var(--color-primary-dark);
-}
-.projects__breadcrumb span[aria-current="page"] {
-  color: var(--color-primary-dark);
-  font-weight: 600;
-}
-.projects__breadcrumb-sep {
-  color: #ccc;
-  font-size: 0.9rem;
 }
 
 /* Eyebrow */
@@ -228,7 +201,7 @@
 /* RESPONSIVIDADE */
 @media (min-width: 601px) {
   .projects {
-    padding: 32px 18px 40px;
+    padding: 0 18px 40px;
   }
   .projects__grid {
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -240,7 +213,7 @@
 
 @media (min-width: 900px) {
   .projects {
-    padding: 40px 20px 48px;
+    padding: 0 20px 48px;
   }
   .projects__title h1 {
     font-size: 1.9rem;

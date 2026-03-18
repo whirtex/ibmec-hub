@@ -7,7 +7,7 @@
 /* MAIN */
 .main-content {
   display: block;
-  padding: 1.25rem;
+  padding: 0 1.25rem 1.25rem;
 }
 
 .project-container {
@@ -26,6 +26,7 @@
 
 .project-info h1 {
   font-size: clamp(1.6rem, 5vw, 1.9rem);
+  margin-top: 0;
   margin-bottom: 0.9rem;
   color: var(--color-primary-dark);
 }
@@ -125,7 +126,7 @@ figure img {
 /* RESPONSIVIDADE */
 @media (min-width: 601px) {
   .main-content {
-    padding: 1.75rem;
+    padding: 0 1.75rem 1.75rem;
   }
   .info-cards {
     grid-template-columns: repeat(2, minmax(220px, 1fr));
@@ -148,7 +149,7 @@ figure img {
   .main-content {
     display: flex;
     justify-content: center;
-    padding: 2.5rem;
+    padding: 0 2.5rem 2.5rem;
   }
   .project-container {
     flex-direction: row;
@@ -555,28 +556,3 @@ figure img {
   }
 }
 
-/* ── BREADCRUMB ─────────────────────────────────────── */
-.projeto-breadcrumb {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.82rem;
-  color: #888;
-  margin-bottom: 1.5rem;
-  flex-wrap: wrap;
-}
-.projeto-breadcrumb a {
-  color: #888;
-  text-decoration: none;
-  transition: color 0.18s;
-}
-.projeto-breadcrumb a:hover {
-  color: var(--color-primary-dark);
-}
-.projeto-breadcrumb span[aria-current="page"] {
-  color: var(--color-primary-dark);
-  font-weight: 600;
-}
-.projeto-breadcrumb span[aria-hidden="true"] {
-  color: #ccc;
-}

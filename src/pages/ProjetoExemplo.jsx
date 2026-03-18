@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import "../styles/styleProjetoExemplo.css";
-import "../styles/style.css";
 import imagemExemplo from "../assets/img/imagemExemplo.png";
 import { CATEGORIES, CATEGORY_ICONS } from "../constants/projects";
 
@@ -74,18 +73,26 @@ export default function ProjetoExemplo() {
 
   return (
     <>
-      <main className="main-content">
-        {/* ── Breadcrumb ── */}
-        <nav className="projeto-breadcrumb" aria-label="Navegação estrutural">
+      {/* ── Breadcrumb — fora do main-content para não entrar no flex ── */}
+      <div className="page-breadcrumb-shell">
+        <nav className="page-breadcrumb" aria-label="Navegação estrutural">
           <Link to="/">Início</Link>
-          <span aria-hidden="true">›</span>
+          <span className="page-breadcrumb__sep" aria-hidden="true">
+            ›
+          </span>
           <Link to="/#projetos">Projetos</Link>
-          <span aria-hidden="true">›</span>
+          <span className="page-breadcrumb__sep" aria-hidden="true">
+            ›
+          </span>
           <Link to={`/projetos/${categoria}`}>{categoryLabel}</Link>
-          <span aria-hidden="true">›</span>
+          <span className="page-breadcrumb__sep" aria-hidden="true">
+            ›
+          </span>
           <span aria-current="page">Detalhe</span>
         </nav>
+      </div>
 
+      <main className="main-content">
         <section className="project-container">
           <div className="project-info">
             <h1>{PROJECT.title}</h1>

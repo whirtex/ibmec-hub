@@ -62,6 +62,55 @@ ul {
   padding-right: 1rem;
 }
 
+/* BREADCRUMB (PADRÃO GLOBAL) */
+.page-breadcrumb-shell {
+  max-width: 1150px;
+  margin: 0 auto;
+  padding: 24px 16px 0;
+}
+
+@media (min-width: 601px) {
+  .page-breadcrumb-shell {
+    padding: 32px 18px 0;
+  }
+}
+
+@media (min-width: 900px) {
+  .page-breadcrumb-shell {
+    padding: 40px 20px 0;
+  }
+}
+
+.page-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  color: #888;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.page-breadcrumb a {
+  color: #888;
+  text-decoration: none;
+  transition: color 0.18s;
+}
+
+.page-breadcrumb a:hover {
+  color: var(--color-primary-dark);
+}
+
+.page-breadcrumb span[aria-current="page"] {
+  color: var(--color-primary-dark);
+  font-weight: 600;
+}
+
+.page-breadcrumb__sep {
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
 .btn {
   display: inline-block;
   padding: 0.75rem 1.5rem;
