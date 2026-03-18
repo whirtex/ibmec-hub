@@ -88,6 +88,11 @@ ul {
   position: sticky;
   top: 0;
   z-index: 1000;
+  transition: box-shadow 0.25s ease;
+}
+.site-header--scrolled {
+  box-shadow: 0 2px 16px rgba(0, 20, 50, 0.1);
+  border-bottom-color: transparent;
 }
 
 .header__top-bar {
@@ -559,7 +564,6 @@ ul {
   gap: 1.5rem 1.25rem;
   max-width: 1120px;
   margin: 0 auto;
-  justify-items: center;
 }
 
 .card {
@@ -677,16 +681,14 @@ ul {
   height: 100%;
   scroll-snap-align: start;
   scroll-margin-left: 1rem;
-
   background-color: #ffffff;
   color: #222;
   border-radius: 12px;
-  /* FIX: era 0.75rem — texto sufocado */
   padding: 1.25rem;
   display: grid;
   grid-template-rows: auto 1fr auto auto;
-  /* FIX: era 6px — pouco espaço entre os blocos internos */
   row-gap: 10px;
+  box-shadow: 0 4px 20px rgba(0, 20, 50, 0.14);
 }
 
 .depo-card .title-row {
@@ -725,6 +727,7 @@ ul {
   gap: 3px;
   align-self: end;
   font-size: 0.9rem;
+  letter-spacing: 0.15em;
 }
 .autor {
   display: flex;

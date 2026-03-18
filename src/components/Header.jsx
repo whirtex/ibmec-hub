@@ -10,10 +10,17 @@ export default function Header({ onOpenLogin }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isProjetosMenuOpen, setIsProjetosMenuOpen] = useState(false);
   const [isMobileProjetosOpen, setIsMobileProjetosOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const closeTimer = useRef(null);
 
-  // Detecta se qualquer rota /projetos/* está ativa (para o trigger do megamenu)
   const projetosAtivo = useMatch("/projetos/*");
+
+  // Sombra dinâmica ao rolar
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     const onResize = () => {
@@ -47,7 +54,9 @@ export default function Header({ onOpenLogin }) {
   const closeMegamenu = () => setIsProjetosMenuOpen(false);
 
   return (
-    <header className="site-header">
+    <header
+      className={`site-header${scrolled ? " site-header--scrolled" : ""}`}
+    >
       <div className="header__top-bar" />
 
       <div className="container header__container">
