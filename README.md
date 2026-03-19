@@ -73,6 +73,22 @@ npm run build
 
 Acesse em `http://localhost:5173`
 
+### API real (opcional)
+
+Por padrão, o front usa fallback mock para login, cadastro e contato.
+
+Para conectar em backend real:
+
+```bash
+# copie o arquivo de exemplo
+cp .env.example .env
+
+# ajuste a URL para sua API
+VITE_API_BASE_URL=http://localhost:3000/api/v1
+```
+
+Se `VITE_API_BASE_URL` não estiver definido, os serviços de `src/services/api.js` continuam em modo mock.
+
 ---
 
 ## Rotas

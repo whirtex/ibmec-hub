@@ -4,6 +4,7 @@ import "../styles/styleProjetoExemplo.css";
 import imagemExemplo from "../assets/img/imagemExemplo.png";
 import { CATEGORIES, CATEGORY_ICONS } from "../constants/projects";
 import { EXAMPLE_PROJECTS } from "../constants/projectsData";
+import { sendContactMessage } from "../services/api";
 
 function buildProjectDetails(project) {
   return {
@@ -28,6 +29,7 @@ export default function ProjetoExemplo() {
   const [form, setForm] = useState({ nome: "", email: "", mensagem: "" });
   const [enviado, setEnviado] = useState(false);
   const [enviando, setEnviando] = useState(false);
+  const [contactError, setContactError] = useState("");
 
   const isValidCategory = CATEGORIES.some((c) => c.slug === categoria);
 
@@ -58,14 +60,25 @@ export default function ProjetoExemplo() {
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
   }
 
-  function onSubmit(e) {
+  async function onSubmit(e) {
     e.preventDefault();
+    setContactError("");
     setEnviando(true);
-    // Simula envio — substituir por chamada real à API
-    setTimeout(() => {
+
+    try {
+      await sendContactMessage({
+        projectId,
+        name: form.nome,
+        email: form.email,
+        message: form.mensagem,
+      });
+
       setEnviando(false);
       setEnviado(true);
-    }, 1000);
+    } catch (error) {
+      setEnviando(false);
+      setContactError(error.message || "Não foi possível enviar a mensagem.");
+    }
   }
 
   return (
@@ -204,6 +217,12 @@ export default function ProjetoExemplo() {
               </div>
             ) : (
               <form className="contato-form" onSubmit={onSubmit} noValidate>
+                {contactError && (
+                  <p role="alert" aria-live="polite">
+                    {contactError}
+                  </p>
+                )}
+
                 <div className="contato-form__group">
                   <label htmlFor="contato-nome">Nome</label>
                   <input

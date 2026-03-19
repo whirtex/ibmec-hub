@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import logo from "../assets/img/logo-Ibmec.svg";
 import { useLoginContext } from "../context/useLoginContext";
 import "../styles/styleCadastro.css";
+import { registerCompany } from "../services/api";
 
 function maskCNPJ(value) {
   const d = (value || "").replace(/\D/g, "").slice(0, 14);
@@ -33,6 +34,7 @@ export default function Cadastro() {
   const [enviado, setEnviado] = useState(false);
   const [nomeEnviado, setNomeEnviado] = useState("");
   const [showSenha, setShowSenha] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   function setField(name, value) {
     setForm((f) => ({ ...f, [name]: value }));
@@ -44,8 +46,9 @@ export default function Cadastro() {
     setField(name, name === "cnpj" ? maskCNPJ(value) : value);
   }
 
-  function onSubmit(e) {
+  async function onSubmit(e) {
     e.preventDefault();
+    setErrorMessage("");
     const formEl = formRef.current;
     [...formEl.querySelectorAll("input, select")].forEach((el) =>
       el.setCustomValidity(""),
@@ -58,11 +61,24 @@ export default function Cadastro() {
     setEnviando(true);
     setNomeEnviado(form.nome.split(" ")[0]); // guarda o primeiro nome para o greeting
 
-    // TODO: substituir pelo POST real para a API
-    setTimeout(() => {
+    try {
+      await registerCompany({
+        name: form.nome,
+        email: form.email,
+        cnpj: form.cnpj,
+        password: form.senha,
+        companySize: form.porte,
+        ibmecRelationship: form.vinculo,
+        industry: form.area,
+        demandType: form.demanda,
+      });
+
       setEnviando(false);
       setEnviado(true);
-    }, 1200);
+    } catch (error) {
+      setEnviando(false);
+      setErrorMessage(error.message || "Não foi possível criar a conta.");
+    }
   }
 
   /* ── TELA DE SUCESSO ── */
@@ -109,6 +125,12 @@ export default function Cadastro() {
         </div>
 
         <form ref={formRef} className="reg-form" noValidate onSubmit={onSubmit}>
+          {errorMessage && (
+            <p className="reg-form__error" role="alert" aria-live="polite">
+              {errorMessage}
+            </p>
+          )}
+
           {/* ── Grupo: Acesso ── */}
           <div className="form-section">
             <span className="form-section-label">Acesso</span>

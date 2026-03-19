@@ -2,23 +2,34 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/styleLogin.css";
 import logo from "../assets/img/logo-Ibmec.svg";
+import { login } from "../services/api";
 
 export default function LoginModal({ open, onClose }) {
   const [loading, setLoading] = useState(false);
   const [showSenha, setShowSenha] = useState(false);
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const onOverlayClick = (e) => {
     if (e.target === e.currentTarget) onClose();
   };
 
-  function onSubmit(e) {
+  async function onSubmit(e) {
     e.preventDefault();
+    setErrorMessage("");
     setLoading(true);
-    // TODO: substituir pelo POST real de autenticação
-    setTimeout(() => {
-      setLoading(false);
+
+    try {
+      await login({ email, password: senha });
+      setEmail("");
+      setSenha("");
       onClose();
-    }, 1200);
+    } catch (error) {
+      setErrorMessage(error.message || "Não foi possível entrar na conta.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -55,6 +66,12 @@ export default function LoginModal({ open, onClose }) {
         </p>
 
         <form onSubmit={onSubmit}>
+          {errorMessage && (
+            <p className="login-modal__error" role="alert" aria-live="polite">
+              {errorMessage}
+            </p>
+          )}
+
           <div className="input-group">
             <label htmlFor="login-email" className="login-modal__label">
               E-mail
@@ -66,6 +83,8 @@ export default function LoginModal({ open, onClose }) {
               required
               autoComplete="email"
               disabled={loading}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
@@ -81,6 +100,8 @@ export default function LoginModal({ open, onClose }) {
                 required
                 autoComplete="current-password"
                 disabled={loading}
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
               />
               <button
                 type="button"
@@ -108,7 +129,11 @@ export default function LoginModal({ open, onClose }) {
 
         <div className="login-modal__footer">
           Não tem conta?{" "}
-          <Link to="/cadastro" className="login-modal__signup" onClick={onClose}>
+          <Link
+            to="/cadastro"
+            className="login-modal__signup"
+            onClick={onClose}
+          >
             Cadastre-se
           </Link>
         </div>
