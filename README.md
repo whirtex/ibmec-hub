@@ -12,9 +12,9 @@ Plataforma web para exposição e descoberta de projetos acadêmicos desenvolvid
 
 | Ferramenta          | Uso                             |
 | ------------------- | ------------------------------- |
-| React 18+           | Interface e componentes         |
-| React Router DOM 6+ | Navegação e rotas               |
-| Vite 5+             | Bundler e dev server            |
+| React 19+           | Interface e componentes         |
+| React Router DOM 7+ | Navegação e rotas               |
+| Rolldown Vite 7+    | Bundler e dev server            |
 | Font Awesome 6      | Ícones (CDN)                    |
 | Context API         | Estado global do modal de login |
 
@@ -34,9 +34,11 @@ src/
 │   ├── LoginModal.jsx  # Modal de login com link para cadastro
 │   └── ScrollToTop.jsx # Reset de scroll na troca de rota
 ├── constants/
-│   └── projects.js     # Fonte única para categorias, ícones e megamenu
+│   ├── projects.js      # Fonte única para categorias, ícones e megamenu
+│   └── projectsData.js  # Fonte única de dados mock dos projetos (lista e detalhe)
 ├── context/
-│   └── LoginContext.jsx # Estado global do modal (sem prop drilling)
+│   ├── LoginContext.jsx  # Estado global do modal (sem prop drilling)
+│   └── useLoginContext.js # Hook para consumir o contexto com segurança
 ├── pages/
 │   ├── Home.jsx        # Hero, grid de categorias e depoimentos
 │   ├── Cadastro.jsx    # Formulário de cadastro em 2 colunas + tela de sucesso
@@ -80,6 +82,7 @@ Acesse em `http://localhost:5173`
 | `/`                          | Home — busca, categorias e depoimentos        |
 | `/quem-somos`                | Sobre a plataforma e o Ibmec                  |
 | `/cadastro`                  | Cadastro de empresas parceiras                |
+| `/projetos/todos`            | Listagem geral com busca por query (`?q=`)    |
 | `/projetos/:categoria`       | Listagem por área (ex.: `/projetos/back-end`) |
 | `/projetos/:categoria/:slug` | Detalhe de um projeto específico              |
 | `*`                          | Página 404                                    |
@@ -100,7 +103,11 @@ Definidas em `src/constants/projects.js` — alterar aqui reflete automaticament
 
 **`constants/projects.js`** — fonte única de verdade para as categorias. Exporta `CATEGORIES`, `CATEGORY_ICONS` e `MEGAMENU_COLUMNS`. Qualquer alteração nas áreas reflete em todos os componentes automaticamente.
 
+**`constants/projectsData.js`** — fonte única dos projetos mock utilizados tanto na listagem quanto no detalhe. Evita duplicação de dados e mantém consistência de navegação.
+
 **NavLink ativo** — o Header usa `NavLink` do React Router com `useMatch("/projetos/*")` para marcar "Projetos" como ativo em qualquer subrota de categoria.
+
+**Validação de rota** — páginas de listagem e detalhe validam categoria/slug e redirecionam para 404 quando inválidos.
 
 ---
 
@@ -110,7 +117,7 @@ Definidas em `src/constants/projects.js` — alterar aqui reflete automaticament
 - [ ] Autenticação real (JWT ou OAuth) para alunos e professores
 - [ ] Painel do professor para avaliação e publicação de projetos
 - [ ] Upload de imagens e arquivos pelos alunos
-- [ ] Busca e filtros funcionais na listagem de projetos
+- [ ] Paginação / carregamento incremental na listagem
 - [ ] Títulos de página dinâmicos por rota (`react-helmet`)
 - [ ] Proteção de rotas privadas (`PrivateRoute`)
 - [ ] Página de perfil/dashboard pós-login
