@@ -4,6 +4,8 @@ import { CATEGORIES, CATEGORY_ICONS } from "../constants/projects";
 import { EXAMPLE_PROJECTS } from "../constants/projectsData";
 import "../styles/styleProjects.css";
 
+const PAGE_SIZE = 6;
+
 export default function ProjectsPage() {
   const { categoria } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -13,6 +15,7 @@ export default function ProjectsPage() {
 
   const query = searchParams.get("q")?.trim() ?? "";
   const [searchInput, setSearchInput] = useState(query);
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   useEffect(() => {
     setSearchInput(query);
@@ -41,6 +44,17 @@ export default function ProjectsPage() {
       return searchableText.includes(normalizedQuery);
     });
   }, [categoria, query]);
+
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+  }, [categoria, query]);
+
+  const visibleProjects = useMemo(
+    () => filteredProjects.slice(0, visibleCount),
+    [filteredProjects, visibleCount],
+  );
+
+  const hasMoreProjects = visibleProjects.length < filteredProjects.length;
 
   function onSearchSubmit(e) {
     e.preventDefault();
@@ -124,7 +138,7 @@ export default function ProjectsPage() {
 
         <section className="projects__grid" aria-label="Lista de projetos">
           {filteredProjects.length > 0 ? (
-            filteredProjects.map(({ id, category, title, campus, tags }) => {
+            visibleProjects.map(({ id, category, title, campus, tags }) => {
               const cardCategory = categoria === "todos" ? category : categoria;
               const cardCategoryLabel =
                 CATEGORIES.find((c) => c.slug === cardCategory)?.label ??
@@ -175,11 +189,17 @@ export default function ProjectsPage() {
           )}
         </section>
 
-        <div className="projects__more">
-          <button className="projects__more-btn" type="button">
-            Ver mais projetos
-          </button>
-        </div>
+        {hasMoreProjects && (
+          <div className="projects__more">
+            <button
+              className="projects__more-btn"
+              type="button"
+              onClick={() => setVisibleCount((count) => count + PAGE_SIZE)}
+            >
+              Ver mais projetos
+            </button>
+          </div>
+        )}
       </main>
 
       <hr className="linha-customizada" />
