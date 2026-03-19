@@ -1,20 +1,19 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import logo      from "../assets/img/logo-Ibmec.svg";
-import twitter   from "../assets/icons/twitter.svg";
+import logo from "../assets/img/logo-Ibmec.svg";
+import twitter from "../assets/icons/twitter.svg";
 import instagram from "../assets/icons/instagram.svg";
-import tiktok    from "../assets/icons/tik-tok.svg";
-import linkedin  from "../assets/icons/linkedin.svg";
+import tiktok from "../assets/icons/tik-tok.svg";
+import linkedin from "../assets/icons/linkedin.svg";
 import { CATEGORIES } from "../constants/projects";
 
 export default function Footer() {
-  const [openWho,  setOpenWho]  = useState(false);
+  const [openWho, setOpenWho] = useState(false);
   const [openProj, setOpenProj] = useState(false);
 
   return (
     <footer className="site-footer">
       <div className="container footer__container">
-
         {/* ── MARCA ── */}
         <div className="footer__col footer__col--brand">
           <Link to="/" className="header__logo">
@@ -25,31 +24,55 @@ export default function Footer() {
             <br />
             Barra da Tijuca, Rio de Janeiro
           </p>
-          <button type="button" className="footer__text-btn">
+          <a className="footer__text-btn" href="mailto:contato@ibmec.br">
             Entre em contato conosco
-          </button>
-          <button type="button" className="footer__text-btn">
+          </a>
+          <a className="footer__text-btn" href="mailto:feedback@ibmec.br">
             Feedback do site
-          </button>
+          </a>
 
           <div className="footer__social-links">
-            <a href="https://x.com/Ibmec_oficial" target="_blank" rel="noreferrer">
-              <img src={twitter}   alt="Twitter" />
+            <a
+              href="https://x.com/Ibmec_oficial"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <img src={twitter} alt="Twitter" />
             </a>
-            <button type="button" className="footer__social-btn" aria-label="Instagram">
+            <a
+              href="https://www.instagram.com/ibmec"
+              target="_blank"
+              rel="noreferrer"
+              className="footer__social-btn"
+              aria-label="Instagram"
+            >
               <img src={instagram} alt="Instagram" />
-            </button>
-            <button type="button" className="footer__social-btn" aria-label="TikTok">
-              <img src={tiktok}    alt="TikTok" />
-            </button>
-            <button type="button" className="footer__social-btn" aria-label="LinkedIn">
-              <img src={linkedin}  alt="LinkedIn" />
-            </button>
+            </a>
+            <a
+              href="https://www.tiktok.com/@ibmec.oficial"
+              target="_blank"
+              rel="noreferrer"
+              className="footer__social-btn"
+              aria-label="TikTok"
+            >
+              <img src={tiktok} alt="TikTok" />
+            </a>
+            <a
+              href="https://www.linkedin.com/school/ibmec"
+              target="_blank"
+              rel="noreferrer"
+              className="footer__social-btn"
+              aria-label="LinkedIn"
+            >
+              <img src={linkedin} alt="LinkedIn" />
+            </a>
           </div>
         </div>
 
         {/* ── O IBMEC ── */}
-        <div className={`footer__col footer__section ${openWho ? "is-open" : ""}`}>
+        <div
+          className={`footer__col footer__section ${openWho ? "is-open" : ""}`}
+        >
           <h3
             className="footer__col-title footer__toggle"
             aria-expanded={openWho}
@@ -60,7 +83,9 @@ export default function Footer() {
           </h3>
 
           <ul className="footer__list footer__who-list">
-            <li><Link to="/quem-somos">Quem somos</Link></li>
+            <li>
+              <Link to="/quem-somos">Quem somos</Link>
+            </li>
             <li>
               <button type="button" className="footer__text-btn">
                 Perguntas Frequentes
