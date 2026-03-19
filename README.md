@@ -89,6 +89,19 @@ Acesse em `http://localhost:5173`
 
 ---
 
+## Contrato de API (v1)
+
+Contrato mínimo para autenticação, cadastro de empresa, contato e sessão:
+
+- `POST /auth/login`
+- `POST /auth/register-company`
+- `POST /contact`
+- `GET /me`
+
+Veja detalhes em `docs/api-contract-v1.md`.
+
+---
+
 ## Categorias de Projeto
 
 `direito` · `arquitetura` · `front-end` · `back-end` · `administracao` · `economia` · `ux` · `marketing` · `ia` · `mobile`
