@@ -102,7 +102,9 @@
   font-size: 1rem;
   font-family: var(--font-primary);
   background: #fdfdfd;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .contato__field input:focus,

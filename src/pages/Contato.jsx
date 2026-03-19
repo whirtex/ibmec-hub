@@ -21,8 +21,11 @@ export default function Contato() {
 
   // pré-seleciona o tipo via query param (?tipo=feedback)
   useEffect(() => {
-    const param =
-      (searchParams.get("tipo") || searchParams.get("assunto") || "").toLowerCase();
+    const param = (
+      searchParams.get("tipo") ||
+      searchParams.get("assunto") ||
+      ""
+    ).toLowerCase();
     const allowed = ["contato", "feedback", "suporte"];
     if (allowed.includes(param)) {
       setForm((f) => ({ ...f, assunto: param }));
@@ -41,7 +44,7 @@ export default function Contato() {
 
     const formEl = formRef.current;
     [...formEl.querySelectorAll("input, select, textarea")].forEach((el) =>
-      el.setCustomValidity("")
+      el.setCustomValidity(""),
     );
 
     if (form.site) {
@@ -122,7 +125,12 @@ export default function Contato() {
               </button>
             </div>
           ) : (
-            <form ref={formRef} className="contato__form" noValidate onSubmit={onSubmit}>
+            <form
+              ref={formRef}
+              className="contato__form"
+              noValidate
+              onSubmit={onSubmit}
+            >
               {erro && (
                 <p className="contato__erro" role="alert" aria-live="polite">
                   {erro}
@@ -160,7 +168,12 @@ export default function Contato() {
 
               <label className="contato__field contato__field--full">
                 <span>Tipo de mensagem</span>
-                <select name="assunto" required value={form.assunto} onChange={onChange}>
+                <select
+                  name="assunto"
+                  required
+                  value={form.assunto}
+                  onChange={onChange}
+                >
                   <option value="contato">Contato</option>
                   <option value="feedback">Feedback do site</option>
                   <option value="suporte">Suporte</option>
@@ -192,7 +205,11 @@ export default function Contato() {
               />
 
               <div className="contato__actions">
-                <button type="submit" className="btn btn--entrar" disabled={enviando}>
+                <button
+                  type="submit"
+                  className="btn btn--entrar"
+                  disabled={enviando}
+                >
                   {enviando ? "Enviando…" : "Enviar mensagem"}
                 </button>
                 <p className="contato__privacidade">
