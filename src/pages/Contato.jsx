@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { sendContactMessage } from "../services/api";
+import { sendInstitutionalContactMessage } from "../services/api";
 import "../styles/styleContato.css";
 
 const INITIAL_FORM = {
@@ -59,8 +59,7 @@ export default function Contato() {
     setEnviando(true);
 
     try {
-      await sendContactMessage({
-        projectId: null,
+      await sendInstitutionalContactMessage({
         name: form.nome,
         email: form.email,
         message: form.mensagem,

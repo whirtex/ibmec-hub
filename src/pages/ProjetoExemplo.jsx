@@ -4,7 +4,7 @@ import "../styles/styleProjetoExemplo.css";
 import imagemExemplo from "../assets/img/imagemExemplo.png";
 import { CATEGORIES, CATEGORY_ICONS } from "../constants/projects";
 import { EXAMPLE_PROJECTS } from "../constants/projectsData";
-import { sendContactMessage } from "../services/api";
+import { sendProjectContactMessage } from "../services/api";
 
 function buildProjectDetails(project) {
   return {
@@ -66,7 +66,7 @@ export default function ProjetoExemplo() {
     setEnviando(true);
 
     try {
-      await sendContactMessage({
+      await sendProjectContactMessage({
         projectId,
         name: form.nome,
         email: form.email,

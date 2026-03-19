@@ -111,6 +111,7 @@ Contrato mínimo para autenticação, cadastro de empresa, contato e sessão:
 
 - `POST /auth/login`
 - `POST /auth/register-company`
+- `POST /contact/institutional`
 - `POST /contact`
 - `GET /me`
 

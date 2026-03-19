@@ -120,9 +120,50 @@ Cria conta de empresa.
 
 ---
 
-## 3) POST `/contact`
+## 3) POST `/contact/institutional`
 
-Envia mensagem de contato para equipe de um projeto.
+Envia mensagem institucional para a equipe do Ibmec Hubs.
+
+### Request body
+
+```json
+{
+  "name": "João Silva",
+  "email": "joao@empresa.com",
+  "message": "Tenho interesse em conversar sobre parceria.",
+  "type": "contato"
+}
+```
+
+### Regras de validação
+
+- `name` obrigatório, 3-120 caracteres
+- `email` obrigatório, formato válido
+- `message` obrigatório, 10-2000 caracteres
+- `type` opcional, enum: `contato | feedback | suporte`
+
+### Response `202 Accepted`
+
+```json
+{
+  "id": "msg_780",
+  "status": "queued",
+  "type": "contato",
+  "createdAt": "2026-03-18T15:30:00Z"
+}
+```
+
+### Erros esperados
+
+- `400` payload inválido
+- `422` mensagem fora da política
+- `500` erro interno
+
+---
+
+## 4) POST `/contact`
+
+Envia mensagem para equipe de um projeto específico.
 
 ### Request body
 
@@ -162,7 +203,7 @@ Envia mensagem de contato para equipe de um projeto.
 
 ---
 
-## 4) GET `/me`
+## 5) GET `/me`
 
 Retorna usuário autenticado da sessão atual.
 

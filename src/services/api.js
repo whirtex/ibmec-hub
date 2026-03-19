@@ -143,7 +143,7 @@ export async function registerCompany(payload) {
   }
 }
 
-export async function sendContactMessage(payload) {
+export async function sendProjectContactMessage(payload) {
   try {
     if (API_BASE_URL) {
       return await request("/contact", {
@@ -169,7 +169,37 @@ export async function sendContactMessage(payload) {
       createdAt: new Date().toISOString(),
     };
   } catch (error) {
-    throw normalizeError(error, "Falha ao enviar mensagem.");
+    throw normalizeError(error, "Falha ao enviar mensagem para o projeto.");
+  }
+}
+
+export async function sendInstitutionalContactMessage(payload) {
+  try {
+    if (API_BASE_URL) {
+      return await request("/contact/institutional", {
+        method: "POST",
+        body: JSON.stringify(payload),
+      });
+    }
+
+    await delay(800);
+
+    if (payload.message?.toLowerCase().includes("spam")) {
+      throw new ApiError(
+        "Mensagem recusada pela política de conteúdo.",
+        422,
+        "CONTENT_POLICY_VIOLATION",
+      );
+    }
+
+    return {
+      id: "msg_mock_002",
+      status: "queued",
+      type: payload.type || "contato",
+      createdAt: new Date().toISOString(),
+    };
+  } catch (error) {
+    throw normalizeError(error, "Falha ao enviar mensagem institucional.");
   }
 }
 
