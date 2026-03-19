@@ -41,6 +41,11 @@ export default function Header({ onOpenLogin }) {
     document.body.style.overflow = menuOpen ? "hidden" : "";
   }, [menuOpen]);
 
+  useEffect(() => {
+    // garante que não haja timeout pendente ao desmontar
+    return () => clearTimeout(closeTimer.current);
+  }, []);
+
   const closeMenu = useCallback(() => setMenuOpen(false), []);
 
   const handleMenuEnter = () => {
