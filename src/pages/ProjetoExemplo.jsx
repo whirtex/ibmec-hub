@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import "../styles/styleProjetoExemplo.css";
 import imagemExemplo from "../assets/img/imagemExemplo.png";
 import { CATEGORIES, CATEGORY_ICONS } from "../constants/projects";
@@ -50,12 +50,19 @@ const PROJECT = {
 
 export default function ProjetoExemplo() {
   const { categoria } = useParams();
-  const categoryLabel =
-    CATEGORIES.find((c) => c.slug === categoria)?.label ?? "Projetos";
-  const categoryIcon = CATEGORY_ICONS[categoria];
   const [form, setForm] = useState({ nome: "", email: "", mensagem: "" });
   const [enviado, setEnviado] = useState(false);
   const [enviando, setEnviando] = useState(false);
+
+  const isValidCategory = CATEGORIES.some((c) => c.slug === categoria);
+
+  if (!isValidCategory) {
+    return <Navigate to="/404" replace />;
+  }
+
+  const categoryLabel =
+    CATEGORIES.find((c) => c.slug === categoria)?.label ?? "Projetos";
+  const categoryIcon = CATEGORY_ICONS[categoria];
 
   function onChange(e) {
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));

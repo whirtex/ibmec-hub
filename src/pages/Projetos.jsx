@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import { Link, Navigate, useParams, useSearchParams } from "react-router-dom";
 import { CATEGORIES, CATEGORY_ICONS } from "../constants/projects";
 import "../styles/styleProjects.css";
 
@@ -48,6 +48,9 @@ export default function ProjectsPage() {
   const { categoria } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
 
+  const isValidCategory =
+    categoria === "todos" || CATEGORIES.some((c) => c.slug === categoria);
+
   const query = searchParams.get("q")?.trim() ?? "";
   const [searchInput, setSearchInput] = useState(query);
 
@@ -58,7 +61,7 @@ export default function ProjectsPage() {
   const categoryLabel =
     categoria === "todos"
       ? "Todas as áreas"
-      : CATEGORIES.find((c) => c.slug === categoria)?.label ?? "Projetos";
+      : (CATEGORIES.find((c) => c.slug === categoria)?.label ?? "Projetos");
 
   const categoryIcon = CATEGORY_ICONS[categoria];
 
@@ -68,7 +71,8 @@ export default function ProjectsPage() {
     const normalizedQuery = query.toLowerCase();
 
     return EXAMPLE_PROJECTS.filter(({ title, campus, tags }) => {
-      const searchableText = `${title} ${campus} ${tags.join(" ")}`.toLowerCase();
+      const searchableText =
+        `${title} ${campus} ${tags.join(" ")}`.toLowerCase();
       return searchableText.includes(normalizedQuery);
     });
   }, [query]);
@@ -93,6 +97,10 @@ export default function ProjectsPage() {
     nextParams.delete("q");
     setSearchInput("");
     setSearchParams(nextParams);
+  }
+
+  if (!isValidCategory) {
+    return <Navigate to="/404" replace />;
   }
 
   return (
@@ -156,7 +164,9 @@ export default function ProjectsPage() {
                 {/* Linha superior: avatar + título + campus */}
                 <div className="project-card__header">
                   <div className="project-card__avatar">
-                    {categoryIcon && <img src={categoryIcon} alt={categoryLabel} />}
+                    {categoryIcon && (
+                      <img src={categoryIcon} alt={categoryLabel} />
+                    )}
                   </div>
                   <div className="project-card__meta">
                     <h3 className="project-card__title">{title}</h3>
