@@ -3,60 +3,50 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import "../styles/styleProjetoExemplo.css";
 import imagemExemplo from "../assets/img/imagemExemplo.png";
 import { CATEGORIES, CATEGORY_ICONS } from "../constants/projects";
+import { EXAMPLE_PROJECTS } from "../constants/projectsData";
 
-// Projetos relacionados de exemplo — futuramente virão filtrados por categoria da API
-const RELATED = [
-  {
-    id: 2,
-    title: "API de Gestão de Estoque",
-    campus: "Ibmec Centro, RJ",
-    tags: ["Python", "Django"],
-  },
-  {
-    id: 3,
-    title: "Dashboard de Analytics",
-    campus: "Ibmec Faria Lima, SP",
-    tags: ["Vue.js", "D3.js"],
-  },
-  {
-    id: 4,
-    title: "Plataforma de E-learning",
-    campus: "Ibmec Paulista, SP",
-    tags: ["React", "MySQL"],
-  },
-];
-
-// Dados de exemplo — substituir por props/API quando o backend estiver pronto.
-const PROJECT = {
-  title: "Lorem ipsum dolor sit amet, consectetur.",
-  description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-    Curabitur sagittis cursus consequat. Vestibulum commodo semper arcu aliquet luctus.
-    Quisque volutpat id orci ac porttitor. Cras varius ornare arcu, id aliquet tellus
-    ornare id. Nam rhoncus consectetur mi, sit amet tincidunt tortor interdum vitae.
-    Etiam porttitor ante quam, semper viverra metus cursus eget. Aliquam erat volutpat.
-    Nulla lectus quam, scelerisque eget lobortis eget, consequat ac magna.`,
-  members: "## pessoas",
-  technologies: "Tec1, Tec2, Tec3, Tec4, ...",
-  location: "São Paulo, SP",
-  services:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed porttitor dolor nec lacus.",
-  githubUrl: "#", // Substituir pela URL real do repositório
-  team: [
-    { name: "Ana Silva", role: "Desenvolvedora Front-end", initials: "AS" },
-    { name: "Bruno Costa", role: "Desenvolvedor Back-end", initials: "BC" },
-    { name: "Clara Mendes", role: "UX Designer", initials: "CM" },
-  ],
-};
+function buildProjectDetails(project) {
+  return {
+    ...project,
+    description: `Projeto acadêmico desenvolvido no ${project.campus} para resolver desafios práticos da área de ${project.category}. A solução integra tecnologias como ${project.tags.join(", ")} e foi desenhada para escalar com qualidade técnica e foco em resultado.`,
+    members: "3 pessoas",
+    technologies: project.tags.join(", "),
+    location: project.campus,
+    services:
+      "Pesquisa aplicada, desenvolvimento de solução digital e validação de impacto com parceiros de mercado.",
+    githubUrl: "#",
+    team: [
+      { name: "Ana Silva", role: "Líder de Produto", initials: "AS" },
+      { name: "Bruno Costa", role: "Engenheiro de Software", initials: "BC" },
+      { name: "Clara Mendes", role: "Designer de Experiência", initials: "CM" },
+    ],
+  };
+}
 
 export default function ProjetoExemplo() {
-  const { categoria } = useParams();
+  const { categoria, slug } = useParams();
   const [form, setForm] = useState({ nome: "", email: "", mensagem: "" });
   const [enviado, setEnviado] = useState(false);
   const [enviando, setEnviando] = useState(false);
 
   const isValidCategory = CATEGORIES.some((c) => c.slug === categoria);
 
-  if (!isValidCategory) {
+  const matchedSlug = slug?.match(/^exemplo-(\d+)$/);
+  const projectId = matchedSlug ? Number(matchedSlug[1]) : null;
+
+  const selectedProjectBase = EXAMPLE_PROJECTS.find(
+    (project) => project.id === projectId && project.category === categoria,
+  );
+
+  const project = selectedProjectBase
+    ? buildProjectDetails(selectedProjectBase)
+    : null;
+
+  const relatedProjects = EXAMPLE_PROJECTS.filter(
+    (item) => item.category === categoria && item.id !== projectId,
+  ).slice(0, 3);
+
+  if (!isValidCategory || !project) {
     return <Navigate to="/404" replace />;
   }
 
@@ -97,18 +87,18 @@ export default function ProjetoExemplo() {
           <span className="page-breadcrumb__sep" aria-hidden="true">
             ›
           </span>
-          <span aria-current="page">Detalhe</span>
+          <span aria-current="page">{project.title}</span>
         </nav>
       </div>
 
       <main className="main-content">
         <section className="project-container">
           <div className="project-info">
-            <h1>{PROJECT.title}</h1>
+            <h1>{project.title}</h1>
 
             <article>
               <h2>Descrição do Projeto:</h2>
-              <p>{PROJECT.description}</p>
+              <p>{project.description}</p>
             </article>
 
             <aside className="info-cards">
@@ -116,7 +106,7 @@ export default function ProjetoExemplo() {
                 <h3>Membros</h3>
                 <p>
                   <i className="fa-solid fa-users" aria-hidden="true" />{" "}
-                  {PROJECT.members}
+                  {project.members}
                 </p>
               </div>
 
@@ -124,7 +114,7 @@ export default function ProjetoExemplo() {
                 <h3>Tecnologias</h3>
                 <p>
                   <i className="fa-solid fa-microchip" aria-hidden="true" />{" "}
-                  {PROJECT.technologies}
+                  {project.technologies}
                 </p>
               </div>
 
@@ -132,7 +122,7 @@ export default function ProjetoExemplo() {
                 <h3>Localização</h3>
                 <p>
                   <i className="fa-solid fa-location-dot" aria-hidden="true" />{" "}
-                  {PROJECT.location}
+                  {project.location}
                 </p>
               </div>
 
@@ -140,14 +130,14 @@ export default function ProjetoExemplo() {
                 <h3>Serviços Prestados</h3>
                 <p>
                   <i className="fa-solid fa-robot" aria-hidden="true" />{" "}
-                  {PROJECT.services}
+                  {project.services}
                 </p>
               </div>
             </aside>
 
             <div className="project-actions">
               <a
-                href={PROJECT.githubUrl}
+                href={project.githubUrl}
                 className="btn btn--primary"
                 target="_blank"
                 rel="noreferrer"
@@ -181,7 +171,7 @@ export default function ProjetoExemplo() {
             </p>
 
             <ul className="equipe-lista">
-              {PROJECT.team.map(({ name, role, initials }) => (
+              {project.team.map(({ name, role, initials }) => (
                 <li key={name} className="equipe-membro">
                   <div className="equipe-avatar">{initials}</div>
                   <div className="equipe-info">
@@ -277,7 +267,7 @@ export default function ProjetoExemplo() {
           </div>
 
           <div className="relacionados__grid">
-            {RELATED.map(({ id, title, campus, tags }) => (
+            {relatedProjects.map(({ id, title, campus, tags }) => (
               <Link
                 key={id}
                 to={`/projetos/${categoria}/exemplo-${id}`}
