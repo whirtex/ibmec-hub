@@ -24,12 +24,12 @@ export default function Footer() {
             <br />
             Barra da Tijuca, Rio de Janeiro
           </p>
-          <a className="footer__text-btn" href="mailto:contato@ibmec.br">
+          <Link className="footer__text-btn" to="/contato?tipo=contato">
             Entre em contato conosco
-          </a>
-          <a className="footer__text-btn" href="mailto:feedback@ibmec.br">
+          </Link>
+          <Link className="footer__text-btn" to="/contato?tipo=feedback">
             Feedback do site
-          </a>
+          </Link>
 
           <div className="footer__social-links">
             <a

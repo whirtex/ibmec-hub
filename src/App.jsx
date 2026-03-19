@@ -8,6 +8,7 @@ import Cadastro from "./pages/Cadastro";
 import QuemSomos from "./pages/QuemSomos";
 import ProjectsPage from "./pages/Projetos";
 import ProjetoExemplo from "./pages/ProjetoExemplo";
+import Contato from "./pages/Contato";
 import NotFound from "./pages/NotFound";
 
 export default function App() {
@@ -24,6 +25,7 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/cadastro" element={<Cadastro />} />
             <Route path="/quem-somos" element={<QuemSomos />} />
+            <Route path="/contato" element={<Contato />} />
             {/* Rota genérica de categoria — ex.: /projetos/back-end */}
             <Route path="/projetos/:categoria" element={<ProjectsPage />} />
             {/* Rota de projeto individual — ex.: /projetos/back-end/exemplo */}
