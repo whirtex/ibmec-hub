@@ -1,35 +1,63 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/styleLogin.css";
 import logo from "../assets/img/logo-Ibmec.svg";
 import { login } from "../services/api";
+import { useFormState } from "../hooks/useFormState";
+import { validateLoginForm } from "../utils/validators";
+
+const INITIAL_FORM = {
+  email: "",
+  senha: "",
+};
 
 export default function LoginModal({ open, onClose }) {
-  const [loading, setLoading] = useState(false);
+  const formRef = useRef(null);
   const [showSenha, setShowSenha] = useState(false);
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const {
+    values: form,
+    errors,
+    submitError: errorMessage,
+    isSubmitting: loading,
+    handleChange,
+    handleSubmit,
+    resetForm,
+  } = useFormState({
+    initialValues: INITIAL_FORM,
+    validate: validateLoginForm,
+  });
+
+  useEffect(() => {
+    const formEl = formRef.current;
+    if (!formEl) return;
+
+    [...formEl.querySelectorAll("input")].forEach((el) => {
+      el.setCustomValidity("");
+    });
+
+    const firstErrorField = Object.keys(errors)[0];
+    if (!firstErrorField) return;
+
+    const firstInput = formEl.querySelector(`[name="${firstErrorField}"]`);
+    const message = errors[firstErrorField];
+
+    if (firstInput && message) {
+      firstInput.setCustomValidity(message);
+      formEl.reportValidity();
+      firstInput.setCustomValidity("");
+    }
+  }, [errors]);
 
   const onOverlayClick = (e) => {
     if (e.target === e.currentTarget) onClose();
   };
 
   async function onSubmit(e) {
-    e.preventDefault();
-    setErrorMessage("");
-    setLoading(true);
-
-    try {
-      await login({ email, password: senha });
-      setEmail("");
-      setSenha("");
+    await handleSubmit(e, async (currentForm) => {
+      await login({ email: currentForm.email, password: currentForm.senha });
+      resetForm(INITIAL_FORM);
       onClose();
-    } catch (error) {
-      setErrorMessage(error.message || "Não foi possível entrar na conta.");
-    } finally {
-      setLoading(false);
-    }
+    });
   }
 
   return (
@@ -65,7 +93,7 @@ export default function LoginModal({ open, onClose }) {
           Entre na sua conta
         </p>
 
-        <form onSubmit={onSubmit}>
+        <form ref={formRef} onSubmit={onSubmit} noValidate>
           {errorMessage && (
             <p className="login-modal__error" role="alert" aria-live="polite">
               {errorMessage}
@@ -78,13 +106,14 @@ export default function LoginModal({ open, onClose }) {
             </label>
             <input
               id="login-email"
+              name="email"
               type="email"
               placeholder="Email@dominio.com"
               required
               autoComplete="email"
               disabled={loading}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={form.email}
+              onChange={handleChange}
             />
           </div>
 
@@ -95,13 +124,14 @@ export default function LoginModal({ open, onClose }) {
             <div className="login-modal__senha-wrapper">
               <input
                 id="login-senha"
+                name="senha"
                 type={showSenha ? "text" : "password"}
                 placeholder="Sua senha"
                 required
                 autoComplete="current-password"
                 disabled={loading}
-                value={senha}
-                onChange={(e) => setSenha(e.target.value)}
+                value={form.senha}
+                onChange={handleChange}
               />
               <button
                 type="button"

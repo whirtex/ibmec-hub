@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { sendInstitutionalContactMessage } from "../services/api";
+import { useFormState } from "../hooks/useFormState";
+import { CONTACT_SUBJECTS, validateContatoForm } from "../utils/validators";
 import "../styles/styleContato.css";
 
 const INITIAL_FORM = {
@@ -14,10 +16,40 @@ const INITIAL_FORM = {
 export default function Contato() {
   const formRef = useRef(null);
   const [searchParams] = useSearchParams();
-  const [form, setForm] = useState(INITIAL_FORM);
-  const [enviando, setEnviando] = useState(false);
   const [enviado, setEnviado] = useState(false);
-  const [erro, setErro] = useState("");
+  const {
+    values: form,
+    errors,
+    submitError: erro,
+    isSubmitting: enviando,
+    setFieldValue,
+    handleChange,
+    handleSubmit,
+  } = useFormState({
+    initialValues: INITIAL_FORM,
+    validate: validateContatoForm,
+  });
+
+  useEffect(() => {
+    const formEl = formRef.current;
+    if (!formEl) return;
+
+    [...formEl.querySelectorAll("input, select, textarea")].forEach((el) => {
+      el.setCustomValidity("");
+    });
+
+    const firstErrorField = Object.keys(errors)[0];
+    if (!firstErrorField) return;
+
+    const firstInput = formEl.querySelector(`[name="${firstErrorField}"]`);
+    const message = errors[firstErrorField];
+
+    if (firstInput && message) {
+      firstInput.setCustomValidity(message);
+      formEl.reportValidity();
+      firstInput.setCustomValidity("");
+    }
+  }, [errors]);
 
   // pré-seleciona o tipo via query param (?tipo=feedback)
   useEffect(() => {
@@ -26,53 +58,33 @@ export default function Contato() {
       searchParams.get("assunto") ||
       ""
     ).toLowerCase();
-    const allowed = ["contato", "feedback", "suporte"];
-    if (allowed.includes(param)) {
-      setForm((f) => ({ ...f, assunto: param }));
+    if (CONTACT_SUBJECTS.includes(param)) {
+      setFieldValue("assunto", param);
     }
-  }, [searchParams]);
+  }, [searchParams, setFieldValue]);
 
   function onChange(e) {
-    const { name, value } = e.target;
+    const { name } = e.target;
     if (name !== "site") e.target.setCustomValidity("");
-    setForm((f) => ({ ...f, [name]: value }));
+    handleChange(e);
   }
 
   async function onSubmit(e) {
-    e.preventDefault();
-    setErro("");
+    await handleSubmit(e, async (currentForm, { resetForm }) => {
+      if (currentForm.site) {
+        return;
+      }
 
-    const formEl = formRef.current;
-    [...formEl.querySelectorAll("input, select, textarea")].forEach((el) =>
-      el.setCustomValidity(""),
-    );
-
-    if (form.site) {
-      return; // honeypot preenchido: ignora
-    }
-
-    if (!formEl.checkValidity()) {
-      formEl.reportValidity();
-      return;
-    }
-
-    setEnviando(true);
-
-    try {
       await sendInstitutionalContactMessage({
-        name: form.nome,
-        email: form.email,
-        message: form.mensagem,
-        type: form.assunto,
+        name: currentForm.nome,
+        email: currentForm.email,
+        message: currentForm.mensagem,
+        type: currentForm.assunto,
       });
 
       setEnviado(true);
-      setForm(INITIAL_FORM);
-    } catch (error) {
-      setErro(error.message || "Não foi possível enviar sua mensagem.");
-    } finally {
-      setEnviando(false);
-    }
+      resetForm(INITIAL_FORM);
+    });
   }
 
   return (
