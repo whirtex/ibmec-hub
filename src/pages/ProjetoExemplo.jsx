@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import "../styles/styleProjetoExemplo.css";
 import imagemExemplo from "../assets/img/imagemExemplo.png";
 import { CATEGORIES, CATEGORY_ICONS } from "../constants/projects";
 import { EXAMPLE_PROJECTS } from "../constants/projectsData";
 import { sendProjectContactMessage } from "../services/api";
+import { useFormState } from "../hooks/useFormState";
+import { validateProjectContactForm } from "../utils/validators";
 
 function buildProjectDetails(project) {
   return {
@@ -26,10 +28,41 @@ function buildProjectDetails(project) {
 
 export default function ProjetoExemplo() {
   const { categoria, slug } = useParams();
-  const [form, setForm] = useState({ nome: "", email: "", mensagem: "" });
+  const formRef = useRef(null);
+  const {
+    values: form,
+    errors,
+    submitError: contactError,
+    isSubmitting: enviando,
+    handleChange,
+    handleSubmit,
+    resetForm,
+  } = useFormState({
+    initialValues: { nome: "", email: "", mensagem: "" },
+    validate: validateProjectContactForm,
+  });
   const [enviado, setEnviado] = useState(false);
-  const [enviando, setEnviando] = useState(false);
-  const [contactError, setContactError] = useState("");
+
+  useEffect(() => {
+    const formEl = formRef.current;
+    if (!formEl) return;
+
+    [...formEl.querySelectorAll("input, textarea")].forEach((el) => {
+      el.setCustomValidity("");
+    });
+
+    const firstErrorField = Object.keys(errors)[0];
+    if (!firstErrorField) return;
+
+    const firstInput = formEl.querySelector(`[name="${firstErrorField}"]`);
+    const message = errors[firstErrorField];
+
+    if (firstInput && message) {
+      firstInput.setCustomValidity(message);
+      formEl.reportValidity();
+      firstInput.setCustomValidity("");
+    }
+  }, [errors]);
 
   const isValidCategory = CATEGORIES.some((c) => c.slug === categoria);
 
@@ -57,28 +90,21 @@ export default function ProjetoExemplo() {
   const categoryIcon = CATEGORY_ICONS[categoria];
 
   function onChange(e) {
-    setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+    e.target.setCustomValidity("");
+    handleChange(e);
   }
 
   async function onSubmit(e) {
-    e.preventDefault();
-    setContactError("");
-    setEnviando(true);
-
-    try {
+    await handleSubmit(e, async (currentForm) => {
       await sendProjectContactMessage({
         projectId,
-        name: form.nome,
-        email: form.email,
-        message: form.mensagem,
+        name: currentForm.nome,
+        email: currentForm.email,
+        message: currentForm.mensagem,
       });
 
-      setEnviando(false);
       setEnviado(true);
-    } catch (error) {
-      setEnviando(false);
-      setContactError(error.message || "Não foi possível enviar a mensagem.");
-    }
+    });
   }
 
   return (
@@ -209,14 +235,19 @@ export default function ProjetoExemplo() {
                   className="btn-contato"
                   onClick={() => {
                     setEnviado(false);
-                    setForm({ nome: "", email: "", mensagem: "" });
+                    resetForm({ nome: "", email: "", mensagem: "" });
                   }}
                 >
                   Enviar outra mensagem
                 </button>
               </div>
             ) : (
-              <form className="contato-form" onSubmit={onSubmit} noValidate>
+              <form
+                ref={formRef}
+                className="contato-form"
+                onSubmit={onSubmit}
+                noValidate
+              >
                 {contactError && (
                   <p role="alert" aria-live="polite">
                     {contactError}

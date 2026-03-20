@@ -69,6 +69,30 @@ export function validateLoginForm(form) {
   return errors;
 }
 
+export function validateProjectContactForm(form) {
+  const errors = {};
+
+  if (!required(form.nome)) {
+    errors.nome = "Informe seu nome.";
+  } else if (form.nome.trim().length < 3) {
+    errors.nome = "Informe ao menos 3 caracteres no nome.";
+  }
+
+  if (!required(form.email)) {
+    errors.email = "Informe um e-mail.";
+  } else if (!EMAIL_REGEX.test(form.email.trim())) {
+    errors.email = "Digite um e-mail válido (ex.: nome@dominio.com).";
+  }
+
+  if (!required(form.mensagem)) {
+    errors.mensagem = "Escreva sua mensagem.";
+  } else if (form.mensagem.trim().length < 10) {
+    errors.mensagem = "A mensagem deve ter no mínimo 10 caracteres.";
+  }
+
+  return errors;
+}
+
 export function validateCadastroCompanyForm(form) {
   const errors = {};
 
