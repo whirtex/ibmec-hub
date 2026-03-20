@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/styleLogin.css";
 import logo from "../assets/img/logo-Ibmec.svg";
@@ -12,41 +12,20 @@ const INITIAL_FORM = {
 };
 
 export default function LoginModal({ open, onClose }) {
-  const formRef = useRef(null);
   const [showSenha, setShowSenha] = useState(false);
   const {
     values: form,
-    errors,
     submitError: errorMessage,
     isSubmitting: loading,
     handleChange,
+    handleBlur,
+    getFieldError,
     handleSubmit,
     resetForm,
   } = useFormState({
     initialValues: INITIAL_FORM,
     validate: validateLoginForm,
   });
-
-  useEffect(() => {
-    const formEl = formRef.current;
-    if (!formEl) return;
-
-    [...formEl.querySelectorAll("input")].forEach((el) => {
-      el.setCustomValidity("");
-    });
-
-    const firstErrorField = Object.keys(errors)[0];
-    if (!firstErrorField) return;
-
-    const firstInput = formEl.querySelector(`[name="${firstErrorField}"]`);
-    const message = errors[firstErrorField];
-
-    if (firstInput && message) {
-      firstInput.setCustomValidity(message);
-      formEl.reportValidity();
-      firstInput.setCustomValidity("");
-    }
-  }, [errors]);
 
   const onOverlayClick = (e) => {
     if (e.target === e.currentTarget) onClose();
@@ -93,7 +72,7 @@ export default function LoginModal({ open, onClose }) {
           Entre na sua conta
         </p>
 
-        <form ref={formRef} onSubmit={onSubmit} noValidate>
+        <form onSubmit={onSubmit} noValidate>
           {errorMessage && (
             <p
               className="login-modal__error form-feedback-error"
@@ -118,7 +97,9 @@ export default function LoginModal({ open, onClose }) {
               disabled={loading}
               value={form.email}
               onChange={handleChange}
+              onBlur={handleBlur}
             />
+            <p className="form-error-text">{getFieldError("email") || " "}</p>
           </div>
 
           <div className="input-group">
@@ -136,6 +117,7 @@ export default function LoginModal({ open, onClose }) {
                 disabled={loading}
                 value={form.senha}
                 onChange={handleChange}
+                onBlur={handleBlur}
               />
               <button
                 type="button"
@@ -150,6 +132,7 @@ export default function LoginModal({ open, onClose }) {
                 />
               </button>
             </div>
+            <p className="form-error-text">{getFieldError("senha") || " "}</p>
           </div>
 
           <button type="submit" className="btn-confirm" disabled={loading}>

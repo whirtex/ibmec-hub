@@ -35,7 +35,7 @@ export function validateContatoForm(form) {
   if (!required(form.email)) {
     errors.email = "Informe um e-mail.";
   } else if (!EMAIL_REGEX.test(form.email.trim())) {
-    errors.email = "Digite um e-mail válido (ex.: nome@dominio.com).";
+    errors.email = "E-mail inválido.";
   }
 
   if (!required(form.assunto)) {
@@ -59,11 +59,13 @@ export function validateLoginForm(form) {
   if (!required(form.email)) {
     errors.email = "Informe um e-mail.";
   } else if (!EMAIL_REGEX.test(form.email.trim())) {
-    errors.email = "Digite um e-mail válido (ex.: nome@dominio.com).";
+    errors.email = "E-mail inválido.";
   }
 
   if (!required(form.senha)) {
     errors.senha = "Informe sua senha.";
+  } else if (!PASSWORD_REGEX.test(form.senha)) {
+    errors.senha = "Mínimo 8 caracteres, com pelo menos 1 letra e 1 número.";
   }
 
   return errors;
@@ -81,7 +83,7 @@ export function validateProjectContactForm(form) {
   if (!required(form.email)) {
     errors.email = "Informe um e-mail.";
   } else if (!EMAIL_REGEX.test(form.email.trim())) {
-    errors.email = "Digite um e-mail válido (ex.: nome@dominio.com).";
+    errors.email = "E-mail inválido.";
   }
 
   if (!required(form.mensagem)) {
@@ -108,13 +110,13 @@ export function validateCadastroCompanyForm(form) {
   if (!required(form.email)) {
     errors.email = "Informe um e-mail.";
   } else if (!EMAIL_REGEX.test(form.email.trim())) {
-    errors.email = "Digite um e-mail válido (ex.: nome@dominio.com).";
+    errors.email = "E-mail inválido.";
   }
 
   if (!required(form.cnpj)) {
     errors.cnpj = "Informe o CNPJ da empresa.";
   } else if (!CNPJ_REGEX.test(form.cnpj.trim())) {
-    errors.cnpj = "Digite um CNPJ válido (com ou sem pontuação).";
+    errors.cnpj = "Digite um CNPJ válido.";
   }
 
   if (!required(form.senha)) {

@@ -139,6 +139,16 @@ ul {
   margin: 0 0 12px;
 }
 
+.form-error-text {
+  margin: 6px 2px 0;
+  font-size: 0.8rem;
+  line-height: 1.35;
+  color: var(--color-primary-extra-light);
+  height: 19px;
+  overflow: hidden;
+  display: block;
+}
+
 /* HEADER  */
 
 .site-header {

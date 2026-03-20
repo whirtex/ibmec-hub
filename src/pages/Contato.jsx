@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { sendInstitutionalContactMessage } from "../services/api";
 import { useFormState } from "../hooks/useFormState";
@@ -14,42 +14,21 @@ const INITIAL_FORM = {
 };
 
 export default function Contato() {
-  const formRef = useRef(null);
   const [searchParams] = useSearchParams();
   const [enviado, setEnviado] = useState(false);
   const {
     values: form,
-    errors,
     submitError: erro,
     isSubmitting: enviando,
     setFieldValue,
     handleChange,
+    handleBlur,
+    getFieldError,
     handleSubmit,
   } = useFormState({
     initialValues: INITIAL_FORM,
     validate: validateContatoForm,
   });
-
-  useEffect(() => {
-    const formEl = formRef.current;
-    if (!formEl) return;
-
-    [...formEl.querySelectorAll("input, select, textarea")].forEach((el) => {
-      el.setCustomValidity("");
-    });
-
-    const firstErrorField = Object.keys(errors)[0];
-    if (!firstErrorField) return;
-
-    const firstInput = formEl.querySelector(`[name="${firstErrorField}"]`);
-    const message = errors[firstErrorField];
-
-    if (firstInput && message) {
-      firstInput.setCustomValidity(message);
-      formEl.reportValidity();
-      firstInput.setCustomValidity("");
-    }
-  }, [errors]);
 
   // pré-seleciona o tipo via query param (?tipo=feedback)
   useEffect(() => {
@@ -62,12 +41,6 @@ export default function Contato() {
       setFieldValue("assunto", param);
     }
   }, [searchParams, setFieldValue]);
-
-  function onChange(e) {
-    const { name } = e.target;
-    if (name !== "site") e.target.setCustomValidity("");
-    handleChange(e);
-  }
 
   async function onSubmit(e) {
     await handleSubmit(e, async (currentForm, { resetForm }) => {
@@ -136,12 +109,7 @@ export default function Contato() {
               </button>
             </div>
           ) : (
-            <form
-              ref={formRef}
-              className="contato__form"
-              noValidate
-              onSubmit={onSubmit}
-            >
+            <form className="contato__form" noValidate onSubmit={onSubmit}>
               {erro && (
                 <p
                   className="contato__erro form-feedback-error"
@@ -163,8 +131,12 @@ export default function Contato() {
                     minLength={3}
                     autoComplete="name"
                     value={form.nome}
-                    onChange={onChange}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                   />
+                  <p className="form-error-text">
+                    {getFieldError("nome") || " "}
+                  </p>
                 </label>
 
                 <label className="contato__field">
@@ -176,8 +148,12 @@ export default function Contato() {
                     required
                     autoComplete="email"
                     value={form.email}
-                    onChange={onChange}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                   />
+                  <p className="form-error-text">
+                    {getFieldError("email") || " "}
+                  </p>
                 </label>
               </div>
 
@@ -187,12 +163,16 @@ export default function Contato() {
                   name="assunto"
                   required
                   value={form.assunto}
-                  onChange={onChange}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 >
                   <option value="contato">Contato</option>
                   <option value="feedback">Feedback do site</option>
                   <option value="suporte">Suporte</option>
                 </select>
+                <p className="form-error-text">
+                  {getFieldError("assunto") || " "}
+                </p>
               </label>
 
               <label className="contato__field contato__field--full">
@@ -204,15 +184,19 @@ export default function Contato() {
                   required
                   minLength={10}
                   value={form.mensagem}
-                  onChange={onChange}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
+                <p className="form-error-text">
+                  {getFieldError("mensagem") || " "}
+                </p>
               </label>
 
               <input
                 type="text"
                 name="site"
                 value={form.site}
-                onChange={onChange}
+                onChange={handleChange}
                 className="contato__honeypot"
                 tabIndex={-1}
                 autoComplete="off"

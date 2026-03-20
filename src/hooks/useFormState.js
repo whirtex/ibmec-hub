@@ -12,6 +12,8 @@ export function useFormState({
 }) {
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -29,18 +31,16 @@ export function useFormState({
         ? formatter(value, currentValues)
         : value;
 
-      return {
+      const nextValues = {
         ...currentValues,
         [field]: formattedValue,
       };
-    });
 
-    setErrors((currentErrors) => {
-      if (!currentErrors[field]) return currentErrors;
+      if (touched[field] || isSubmitted) {
+        setErrors(validateValues(nextValues));
+      }
 
-      const nextErrors = { ...currentErrors };
-      delete nextErrors[field];
-      return nextErrors;
+      return nextValues;
     });
   }
 
@@ -49,9 +49,30 @@ export function useFormState({
     setFieldValue(name, value);
   }
 
+  function handleBlur(event) {
+    const fieldName = event.target.name;
+
+    setTouched((currentTouched) => ({
+      ...currentTouched,
+      [fieldName]: true,
+    }));
+
+    setErrors(validateValues(values));
+  }
+
+  function getFieldError(fieldName) {
+    if (!(touched[fieldName] || isSubmitted)) {
+      return "";
+    }
+
+    return errors[fieldName] || "";
+  }
+
   function resetForm(nextInitialValues = initialValues) {
     setValues(nextInitialValues);
     setErrors({});
+    setTouched({});
+    setIsSubmitted(false);
     setSubmitError("");
     setIsSubmitting(false);
   }
@@ -59,6 +80,14 @@ export function useFormState({
   async function handleSubmit(event, submitter = onSubmit) {
     event.preventDefault();
     setSubmitError("");
+    setIsSubmitted(true);
+    setTouched((currentTouched) => {
+      const nextTouched = { ...currentTouched };
+      fieldNames.forEach((fieldName) => {
+        nextTouched[fieldName] = true;
+      });
+      return nextTouched;
+    });
 
     const validationErrors = validateValues(values);
     setErrors(validationErrors);
@@ -91,13 +120,19 @@ export function useFormState({
   return {
     values,
     errors,
+    touched,
+    isSubmitted,
     submitError,
     isSubmitting,
     setValues,
     setErrors,
+    setTouched,
+    setIsSubmitted,
     setSubmitError,
     setFieldValue,
     handleChange,
+    handleBlur,
+    getFieldError,
     handleSubmit,
     resetForm,
     fieldNames,

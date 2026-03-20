@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import "../styles/styleProjetoExemplo.css";
 import imagemExemplo from "../assets/img/imagemExemplo.png";
@@ -28,13 +28,13 @@ function buildProjectDetails(project) {
 
 export default function ProjetoExemplo() {
   const { categoria, slug } = useParams();
-  const formRef = useRef(null);
   const {
     values: form,
-    errors,
     submitError: contactError,
     isSubmitting: enviando,
     handleChange,
+    handleBlur,
+    getFieldError,
     handleSubmit,
     resetForm,
   } = useFormState({
@@ -42,27 +42,6 @@ export default function ProjetoExemplo() {
     validate: validateProjectContactForm,
   });
   const [enviado, setEnviado] = useState(false);
-
-  useEffect(() => {
-    const formEl = formRef.current;
-    if (!formEl) return;
-
-    [...formEl.querySelectorAll("input, textarea")].forEach((el) => {
-      el.setCustomValidity("");
-    });
-
-    const firstErrorField = Object.keys(errors)[0];
-    if (!firstErrorField) return;
-
-    const firstInput = formEl.querySelector(`[name="${firstErrorField}"]`);
-    const message = errors[firstErrorField];
-
-    if (firstInput && message) {
-      firstInput.setCustomValidity(message);
-      formEl.reportValidity();
-      firstInput.setCustomValidity("");
-    }
-  }, [errors]);
 
   const isValidCategory = CATEGORIES.some((c) => c.slug === categoria);
 
@@ -88,11 +67,6 @@ export default function ProjetoExemplo() {
   const categoryLabel =
     CATEGORIES.find((c) => c.slug === categoria)?.label ?? "Projetos";
   const categoryIcon = CATEGORY_ICONS[categoria];
-
-  function onChange(e) {
-    e.target.setCustomValidity("");
-    handleChange(e);
-  }
 
   async function onSubmit(e) {
     await handleSubmit(e, async (currentForm) => {
@@ -242,12 +216,7 @@ export default function ProjetoExemplo() {
                 </button>
               </div>
             ) : (
-              <form
-                ref={formRef}
-                className="contato-form"
-                onSubmit={onSubmit}
-                noValidate
-              >
+              <form className="contato-form" onSubmit={onSubmit} noValidate>
                 {contactError && (
                   <p
                     className="contato-form__erro form-feedback-error"
@@ -268,8 +237,12 @@ export default function ProjetoExemplo() {
                     required
                     minLength={3}
                     value={form.nome}
-                    onChange={onChange}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                   />
+                  <p className="form-error-text">
+                    {getFieldError("nome") || " "}
+                  </p>
                 </div>
 
                 <div className="contato-form__group">
@@ -281,8 +254,12 @@ export default function ProjetoExemplo() {
                     placeholder="seu@email.com"
                     required
                     value={form.email}
-                    onChange={onChange}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                   />
+                  <p className="form-error-text">
+                    {getFieldError("email") || " "}
+                  </p>
                 </div>
 
                 <div className="contato-form__group">
@@ -295,8 +272,12 @@ export default function ProjetoExemplo() {
                     minLength={10}
                     rows={5}
                     value={form.mensagem}
-                    onChange={onChange}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                   />
+                  <p className="form-error-text">
+                    {getFieldError("mensagem") || " "}
+                  </p>
                 </div>
 
                 <button

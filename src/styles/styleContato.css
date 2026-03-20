@@ -136,11 +136,7 @@
 }
 
 .contato__erro {
-  background: #ffe5e5;
-  color: #7a1a1a;
-  padding: 12px 14px;
-  border-radius: 10px;
-  border: 1px solid #f3b5b5;
+  margin-bottom: 4px;
 }
 
 .contato__sucesso {

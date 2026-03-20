@@ -141,8 +141,7 @@
 .login-modal__senha-toggle {
   position: absolute;
   right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 12px;
   background: none;
   border: none;
   cursor: pointer;
@@ -154,7 +153,6 @@
 }
 .login-modal__senha-toggle:hover {
   color: var(--color-primary-dark, #003366);
-  transform: translateY(-50%);
 }
 .login-modal__senha-toggle:disabled {
   cursor: not-allowed;

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/img/logo-Ibmec.svg";
 import { useLoginContext } from "../context/useLoginContext";
@@ -27,16 +27,16 @@ const INITIAL_FORM = {
 
 export default function Cadastro() {
   const { openLogin } = useLoginContext();
-  const formRef = useRef(null);
   const [enviado, setEnviado] = useState(false);
   const [nomeEnviado, setNomeEnviado] = useState("");
   const [showSenha, setShowSenha] = useState(false);
   const {
     values: form,
-    errors,
     submitError: errorMessage,
     isSubmitting: enviando,
     handleChange,
+    handleBlur,
+    getFieldError,
     handleSubmit,
   } = useFormState({
     initialValues: INITIAL_FORM,
@@ -45,32 +45,6 @@ export default function Cadastro() {
       cnpj: (value) => maskCNPJ(value),
     },
   });
-
-  useEffect(() => {
-    const formEl = formRef.current;
-    if (!formEl) return;
-
-    [...formEl.querySelectorAll("input, select")].forEach((el) => {
-      el.setCustomValidity("");
-    });
-
-    const firstErrorField = Object.keys(errors)[0];
-    if (!firstErrorField) return;
-
-    const firstInput = formEl.querySelector(`[name="${firstErrorField}"]`);
-    const message = errors[firstErrorField];
-
-    if (firstInput && message) {
-      firstInput.setCustomValidity(message);
-      formEl.reportValidity();
-      firstInput.setCustomValidity("");
-    }
-  }, [errors]);
-
-  function onChange(e) {
-    e.target.setCustomValidity("");
-    handleChange(e);
-  }
 
   async function onSubmit(e) {
     await handleSubmit(e, async (currentForm) => {
@@ -134,7 +108,7 @@ export default function Cadastro() {
           <p>Conecte sua empresa aos talentos do Ibmec</p>
         </div>
 
-        <form ref={formRef} className="reg-form" noValidate onSubmit={onSubmit}>
+        <form className="reg-form" noValidate onSubmit={onSubmit}>
           {errorMessage && (
             <p
               className="reg-form__error form-feedback-error"
@@ -162,8 +136,12 @@ export default function Cadastro() {
                   pattern={FULL_NAME_REGEX.source}
                   title="Digite nome e sobrenome, apenas letras e espaços."
                   value={form.nome}
-                  onChange={onChange}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
+                <p className="form-error-text">
+                  {getFieldError("nome") || " "}
+                </p>
               </div>
               <div className="form-group">
                 <input
@@ -177,8 +155,12 @@ export default function Cadastro() {
                   pattern={EMAIL_REGEX.source}
                   title="Digite um e-mail válido (ex.: nome@dominio.com)."
                   value={form.email}
-                  onChange={onChange}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
+                <p className="form-error-text">
+                  {getFieldError("email") || " "}
+                </p>
               </div>
             </div>
             <div className="form-row">
@@ -194,8 +176,12 @@ export default function Cadastro() {
                   pattern={CNPJ_REGEX.source}
                   title="Digite um CNPJ válido (com ou sem pontuação)."
                   value={form.cnpj}
-                  onChange={onChange}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
+                <p className="form-error-text">
+                  {getFieldError("cnpj") || " "}
+                </p>
               </div>
               <div className="form-group form-group--senha">
                 <input
@@ -209,7 +195,8 @@ export default function Cadastro() {
                   pattern={PASSWORD_REGEX.source}
                   title="Mínimo 8 caracteres, com pelo menos 1 letra e 1 número."
                   value={form.senha}
-                  onChange={onChange}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
                 <button
                   type="button"
@@ -222,6 +209,9 @@ export default function Cadastro() {
                     aria-hidden="true"
                   />
                 </button>
+                <p className="form-error-text">
+                  {getFieldError("senha") || " "}
+                </p>
               </div>
             </div>
           </div>
@@ -236,7 +226,8 @@ export default function Cadastro() {
                   name="porte"
                   required
                   value={form.porte}
-                  onChange={onChange}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 >
                   <option value="">Porte da empresa</option>
                   <option value="micro">Microempresa</option>
@@ -244,6 +235,9 @@ export default function Cadastro() {
                   <option value="media">Média Empresa</option>
                   <option value="grande">Grande Empresa</option>
                 </select>
+                {getFieldError("porte") && (
+                  <p className="form-error-text">{getFieldError("porte")}</p>
+                )}
               </div>
               <div className="form-group">
                 <select
@@ -251,12 +245,16 @@ export default function Cadastro() {
                   name="vinculo"
                   required
                   value={form.vinculo}
-                  onChange={onChange}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 >
                   <option value="">Vínculo com IBMEC Hubs?</option>
                   <option value="sim">Sim</option>
                   <option value="nao">Não</option>
                 </select>
+                {getFieldError("vinculo") && (
+                  <p className="form-error-text">{getFieldError("vinculo")}</p>
+                )}
               </div>
             </div>
             <div className="form-row">
@@ -266,7 +264,8 @@ export default function Cadastro() {
                   name="area"
                   required
                   value={form.area}
-                  onChange={onChange}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 >
                   <option value="">Área de atuação</option>
                   <option value="tecnologia">Tecnologia</option>
@@ -275,6 +274,9 @@ export default function Cadastro() {
                   <option value="financeiro">Financeiro</option>
                   <option value="outro">Outro</option>
                 </select>
+                {getFieldError("area") && (
+                  <p className="form-error-text">{getFieldError("area")}</p>
+                )}
               </div>
               <div className="form-group">
                 <select
@@ -282,7 +284,8 @@ export default function Cadastro() {
                   name="demanda"
                   required
                   value={form.demanda}
-                  onChange={onChange}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 >
                   <option value="">Tipo de demanda</option>
                   <option value="consultoria">Consultoria</option>
@@ -290,6 +293,9 @@ export default function Cadastro() {
                   <option value="pesquisa">Pesquisa</option>
                   <option value="outro">Outro</option>
                 </select>
+                {getFieldError("demanda") && (
+                  <p className="form-error-text">{getFieldError("demanda")}</p>
+                )}
               </div>
             </div>
           </div>
