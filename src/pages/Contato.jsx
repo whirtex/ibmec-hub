@@ -143,7 +143,11 @@ export default function Contato() {
               onSubmit={onSubmit}
             >
               {erro && (
-                <p className="contato__erro" role="alert" aria-live="polite">
+                <p
+                  className="contato__erro form-feedback-error"
+                  role="alert"
+                  aria-live="polite"
+                >
                   {erro}
                 </p>
               )}

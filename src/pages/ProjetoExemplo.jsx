@@ -249,7 +249,11 @@ export default function ProjetoExemplo() {
                 noValidate
               >
                 {contactError && (
-                  <p role="alert" aria-live="polite">
+                  <p
+                    className="contato-form__erro form-feedback-error"
+                    role="alert"
+                    aria-live="polite"
+                  >
                     {contactError}
                   </p>
                 )}

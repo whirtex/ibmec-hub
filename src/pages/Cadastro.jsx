@@ -136,7 +136,11 @@ export default function Cadastro() {
 
         <form ref={formRef} className="reg-form" noValidate onSubmit={onSubmit}>
           {errorMessage && (
-            <p className="reg-form__error" role="alert" aria-live="polite">
+            <p
+              className="reg-form__error form-feedback-error"
+              role="alert"
+              aria-live="polite"
+            >
               {errorMessage}
             </p>
           )}

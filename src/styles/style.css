@@ -129,6 +129,16 @@ ul {
   transform: translateY(-2px);
 }
 
+/* FORMULÁRIOS (PADRÃO COMPARTILHADO) */
+.form-feedback-error {
+  background: var(--color-background);
+  color: var(--color-primary-dark);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin: 0 0 12px;
+}
+
 /* HEADER  */
 
 .site-header {

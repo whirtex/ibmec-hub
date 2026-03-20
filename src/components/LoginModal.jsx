@@ -95,7 +95,11 @@ export default function LoginModal({ open, onClose }) {
 
         <form ref={formRef} onSubmit={onSubmit} noValidate>
           {errorMessage && (
-            <p className="login-modal__error" role="alert" aria-live="polite">
+            <p
+              className="login-modal__error form-feedback-error"
+              role="alert"
+              aria-live="polite"
+            >
               {errorMessage}
             </p>
           )}

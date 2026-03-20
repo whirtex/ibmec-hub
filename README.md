@@ -139,6 +139,8 @@ Definidas em `src/constants/projects.js` — alterar aqui reflete automaticament
 
 **Validação de rota** — páginas de listagem e detalhe validam categoria/slug e redirecionam para 404 quando inválidos.
 
+**Padrão de formulários** — validações ficam centralizadas em `src/utils/validators.js` e o estado/submissão reutilizável em `src/hooks/useFormState.js`. Para novos formulários, siga: (1) criar validator dedicado, (2) conectar com `useFormState`, (3) usar feedback visual compartilhado com `form-feedback-error`.
+
 ---
 
 ## Próximos Passos
