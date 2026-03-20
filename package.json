@@ -7,6 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -23,7 +25,8 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.22",
     "globals": "^16.4.0",
-    "vite": "npm:rolldown-vite@7.1.14"
+    "vite": "npm:rolldown-vite@7.1.14",
+    "vitest": "^4.1.0"
   },
   "overrides": {
     "vite": "npm:rolldown-vite@7.1.14"
