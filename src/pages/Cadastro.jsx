@@ -1,19 +1,18 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/img/logo-Ibmec.svg";
 import { useLoginContext } from "../context/useLoginContext";
 import "../styles/styleCadastro.css";
 import { registerCompany } from "../services/api";
-
-function maskCNPJ(value) {
-  const d = (value || "").replace(/\D/g, "").slice(0, 14);
-  if (d.length <= 2) return d;
-  if (d.length <= 5) return `${d.slice(0, 2)}.${d.slice(2)}`;
-  if (d.length <= 8) return `${d.slice(0, 2)}.${d.slice(2, 5)}.${d.slice(5)}`;
-  if (d.length <= 12)
-    return `${d.slice(0, 2)}.${d.slice(2, 5)}.${d.slice(5, 8)}/${d.slice(8)}`;
-  return `${d.slice(0, 2)}.${d.slice(2, 5)}.${d.slice(5, 8)}/${d.slice(8, 12)}-${d.slice(12)}`;
-}
+import { useFormState } from "../hooks/useFormState";
+import {
+  CNPJ_REGEX,
+  EMAIL_REGEX,
+  FULL_NAME_REGEX,
+  PASSWORD_REGEX,
+  maskCNPJ,
+  validateCadastroCompanyForm,
+} from "../utils/validators";
 
 const INITIAL_FORM = {
   nome: "",
@@ -29,56 +28,67 @@ const INITIAL_FORM = {
 export default function Cadastro() {
   const { openLogin } = useLoginContext();
   const formRef = useRef(null);
-  const [form, setForm] = useState(INITIAL_FORM);
-  const [enviando, setEnviando] = useState(false);
   const [enviado, setEnviado] = useState(false);
   const [nomeEnviado, setNomeEnviado] = useState("");
   const [showSenha, setShowSenha] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const {
+    values: form,
+    errors,
+    submitError: errorMessage,
+    isSubmitting: enviando,
+    handleChange,
+    handleSubmit,
+  } = useFormState({
+    initialValues: INITIAL_FORM,
+    validate: validateCadastroCompanyForm,
+    formatters: {
+      cnpj: (value) => maskCNPJ(value),
+    },
+  });
 
-  function setField(name, value) {
-    setForm((f) => ({ ...f, [name]: value }));
-  }
+  useEffect(() => {
+    const formEl = formRef.current;
+    if (!formEl) return;
+
+    [...formEl.querySelectorAll("input, select")].forEach((el) => {
+      el.setCustomValidity("");
+    });
+
+    const firstErrorField = Object.keys(errors)[0];
+    if (!firstErrorField) return;
+
+    const firstInput = formEl.querySelector(`[name="${firstErrorField}"]`);
+    const message = errors[firstErrorField];
+
+    if (firstInput && message) {
+      firstInput.setCustomValidity(message);
+      formEl.reportValidity();
+      firstInput.setCustomValidity("");
+    }
+  }, [errors]);
 
   function onChange(e) {
-    const { name, value } = e.target;
     e.target.setCustomValidity("");
-    setField(name, name === "cnpj" ? maskCNPJ(value) : value);
+    handleChange(e);
   }
 
   async function onSubmit(e) {
-    e.preventDefault();
-    setErrorMessage("");
-    const formEl = formRef.current;
-    [...formEl.querySelectorAll("input, select")].forEach((el) =>
-      el.setCustomValidity(""),
-    );
-    if (!formEl.checkValidity()) {
-      formEl.reportValidity();
-      return;
-    }
+    await handleSubmit(e, async (currentForm) => {
+      setNomeEnviado(currentForm.nome.split(" ")[0]);
 
-    setEnviando(true);
-    setNomeEnviado(form.nome.split(" ")[0]); // guarda o primeiro nome para o greeting
-
-    try {
       await registerCompany({
-        name: form.nome,
-        email: form.email,
-        cnpj: form.cnpj,
-        password: form.senha,
-        companySize: form.porte,
-        ibmecRelationship: form.vinculo,
-        industry: form.area,
-        demandType: form.demanda,
+        name: currentForm.nome,
+        email: currentForm.email,
+        cnpj: currentForm.cnpj,
+        password: currentForm.senha,
+        companySize: currentForm.porte,
+        ibmecRelationship: currentForm.vinculo,
+        industry: currentForm.area,
+        demandType: currentForm.demanda,
       });
 
-      setEnviando(false);
       setEnviado(true);
-    } catch (error) {
-      setEnviando(false);
-      setErrorMessage(error.message || "Não foi possível criar a conta.");
-    }
+    });
   }
 
   /* ── TELA DE SUCESSO ── */
@@ -145,7 +155,7 @@ export default function Cadastro() {
                   autoComplete="name"
                   required
                   minLength={3}
-                  pattern="^[A-Za-zÀ-ÖØ-öø-ÿ]+(?:\s+[A-Za-zÀ-ÖØ-öø-ÿ]+)+$"
+                  pattern={FULL_NAME_REGEX.source}
                   title="Digite nome e sobrenome, apenas letras e espaços."
                   value={form.nome}
                   onChange={onChange}
@@ -160,7 +170,7 @@ export default function Cadastro() {
                   inputMode="email"
                   autoComplete="email"
                   required
-                  pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$"
+                  pattern={EMAIL_REGEX.source}
                   title="Digite um e-mail válido (ex.: nome@dominio.com)."
                   value={form.email}
                   onChange={onChange}
@@ -177,7 +187,7 @@ export default function Cadastro() {
                   inputMode="numeric"
                   autoComplete="on"
                   required
-                  pattern="^\d{2}\.?\d{3}\.?\d{3}/?\d{4}-?\d{2}$|^\d{14}$"
+                  pattern={CNPJ_REGEX.source}
                   title="Digite um CNPJ válido (com ou sem pontuação)."
                   value={form.cnpj}
                   onChange={onChange}
@@ -192,7 +202,7 @@ export default function Cadastro() {
                   autoComplete="new-password"
                   required
                   minLength={8}
-                  pattern="^(?=.*[A-Za-z])(?=.*\d).{8,}$"
+                  pattern={PASSWORD_REGEX.source}
                   title="Mínimo 8 caracteres, com pelo menos 1 letra e 1 número."
                   value={form.senha}
                   onChange={onChange}
