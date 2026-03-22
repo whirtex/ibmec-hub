@@ -1,5 +1,4 @@
 import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
-// @ts-expect-error - Prisma client generated dynamically
 import { PrismaClient } from '@prisma/client';
 
 @Injectable()
