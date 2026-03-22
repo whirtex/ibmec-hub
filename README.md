@@ -119,6 +119,14 @@ Veja detalhes em `docs/api-contract-v1.md`.
 
 ---
 
+## Status do Backend
+
+O backend foi removido temporariamente do repositório.
+
+No momento, o time está estudando opções de backend mais seguras e mais fáceis de implementar para a próxima fase do projeto.
+
+---
+
 ## Categorias de Projeto
 
 `direito` · `arquitetura` · `front-end` · `back-end` · `administracao` · `economia` · `ux` · `marketing` · `ia` · `mobile`
@@ -127,27 +135,12 @@ Definidas em `src/constants/projects.js` — alterar aqui reflete automaticament
 
 ---
 
-## Decisões Técnicas
-
-**`LoginContext`** — o estado do modal de login é compartilhado via Context API, evitando prop drilling entre `App`, `Layout`, `Header` e `Cadastro`.
-
-**`constants/projects.js`** — fonte única de verdade para as categorias. Exporta `CATEGORIES`, `CATEGORY_ICONS` e `MEGAMENU_COLUMNS`. Qualquer alteração nas áreas reflete em todos os componentes automaticamente.
-
-**`constants/projectsData.js`** — fonte única dos projetos mock utilizados tanto na listagem quanto no detalhe. Evita duplicação de dados e mantém consistência de navegação.
-
-**NavLink ativo** — o Header usa `NavLink` do React Router com `useMatch("/projetos/*")` para marcar "Projetos" como ativo em qualquer subrota de categoria.
-
-**Validação de rota** — páginas de listagem e detalhe validam categoria/slug e redirecionam para 404 quando inválidos.
-
-**Padrão de formulários** — validações ficam centralizadas em `src/utils/validators.js` e o estado/submissão reutilizável em `src/hooks/useFormState.js`. Para novos formulários, siga: (1) criar validator dedicado, (2) conectar com `useFormState`, (3) usar feedback visual compartilhado com `form-feedback-error`.
-
----
-
 ## Próximos Passos
 
-- [ ] Integração com backend/API para dados reais de projetos
-- [ ] Autenticação real (JWT ou OAuth) para alunos e professores
-- [ ] Painel do professor para avaliação e publicação de projetos
+- [ ] Definir e documentar a nova estratégia de backend (segura e simples)
+- [ ] Recriar o backend do zero com escopo mínimo (MVP)
+- [ ] Integrar o frontend com a nova API após estabilização do backend
+- [ ] Autenticação real para alunos, professores e empresas
 - [ ] Upload de imagens e arquivos pelos alunos
 - [ ] Paginação / carregamento incremental na listagem
 - [ ] Títulos de página dinâmicos por rota (`react-helmet`)
